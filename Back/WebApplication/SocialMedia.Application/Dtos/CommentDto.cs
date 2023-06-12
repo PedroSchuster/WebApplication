@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SocialMedia.Domain.Models;
 
-namespace SocialMedia.Domain.Models
+namespace SocialMedia.Application.Dtos
 {
-    public class Comment
+    public class CommentDto
     {
         public int Id { get; set; }
 
@@ -14,13 +15,10 @@ namespace SocialMedia.Domain.Models
 
         public int PostId { get; set; }
 
-        public Post? Post { get; set; }
-
-        public DateTime Date { get; set; }
+        public string? Date { get; set; }
 
         public string? Body { get; set; }
 
         public IEnumerable<Comment>? Comments { get; set; }
-
     }
 }

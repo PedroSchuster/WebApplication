@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using SocialMedia.Persistence;
+using SocialMedia.Persistence.Contextos;
 
 var builder = WebApplication.CreateBuilder(args);
 

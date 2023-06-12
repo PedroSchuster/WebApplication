@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SocialMedia.Domain.Identity;
 using SocialMedia.Domain.Models;
 
-namespace SocialMedia.Persistence
+namespace SocialMedia.Persistence.Contextos
 {
     public class SocialMediaContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
@@ -24,7 +24,7 @@ namespace SocialMedia.Persistence
 
             modelBuilder.Entity<Post>()
                 .HasMany(x => x.Comments)
-                .WithOne(x=>x.Post)
+                .WithOne(x => x.Post)
                 .OnDelete(DeleteBehavior.Cascade);
         }
 
