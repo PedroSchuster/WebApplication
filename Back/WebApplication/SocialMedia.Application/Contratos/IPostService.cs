@@ -15,6 +15,8 @@ namespace SocialMedia.Domain.Contratos
 
         Task<bool> Remove(int userId, int postId);
 
+        Task<IEnumerable<PostDto>> GetAllCommentsAsync(int postId, int userId);
+
         Task<IEnumerable<PostDto>> GetAllPostsAsync(int userId);
 
         Task<PostDto> GetPostByIdAsync(int postId, int userId);

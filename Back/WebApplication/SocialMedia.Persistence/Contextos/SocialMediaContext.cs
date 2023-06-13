@@ -12,7 +12,7 @@ namespace SocialMedia.Persistence.Contextos
 
         public DbSet<Post> Posts { get; set; }
 
-        public DbSet<Comment> Comments { get; set; }
+        public DbSet<PostComment> PostComments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Data Source=DESKTOP-76E2JNA;Initial Catalog=SocialMediaDB;MultipleActiveResultSets=true;" +
@@ -22,10 +22,15 @@ namespace SocialMedia.Persistence.Contextos
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Post>()
-                .HasMany(x => x.Comments)
-                .WithOne(x => x.Post)
-                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<PostComment>()
+                .HasOne(x => x.Comment)
+                .WithMany()
+                .HasForeignKey(x => x.CommentId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<PostComment>()
+                .HasOne(x => x.Post)
+                .WithMany(x => x.PostComments)
+                .HasForeignKey(x => x.PostId);
         }
 
     }

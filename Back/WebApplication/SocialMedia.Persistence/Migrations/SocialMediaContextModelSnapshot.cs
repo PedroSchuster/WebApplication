@@ -232,38 +232,6 @@ namespace SocialMedia.Persistence.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("SocialMedia.Domain.Models.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Body")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CommentId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CommentId");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("Comments");
-                });
-
             modelBuilder.Entity("SocialMedia.Domain.Models.Post", b =>
                 {
                     b.Property<int>("Id")
@@ -275,8 +243,11 @@ namespace SocialMedia.Persistence.Migrations
                     b.Property<string>("Body")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("RootId")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -286,6 +257,29 @@ namespace SocialMedia.Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("SocialMedia.Domain.Models.PostComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("PostComments");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -339,21 +333,6 @@ namespace SocialMedia.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SocialMedia.Domain.Models.Comment", b =>
-                {
-                    b.HasOne("SocialMedia.Domain.Models.Comment", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("CommentId");
-
-                    b.HasOne("SocialMedia.Domain.Models.Post", "Post")
-                        .WithMany("Comments")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-                });
-
             modelBuilder.Entity("SocialMedia.Domain.Models.Post", b =>
                 {
                     b.HasOne("SocialMedia.Domain.Identity.User", null)
@@ -363,19 +342,33 @@ namespace SocialMedia.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SocialMedia.Domain.Models.PostComment", b =>
+                {
+                    b.HasOne("SocialMedia.Domain.Models.Post", "Comment")
+                        .WithMany()
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SocialMedia.Domain.Models.Post", "Post")
+                        .WithMany("PostComments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Comment");
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("SocialMedia.Domain.Identity.User", b =>
                 {
                     b.Navigation("Posts");
                 });
 
-            modelBuilder.Entity("SocialMedia.Domain.Models.Comment", b =>
-                {
-                    b.Navigation("Comments");
-                });
-
             modelBuilder.Entity("SocialMedia.Domain.Models.Post", b =>
                 {
-                    b.Navigation("Comments");
+                    b.Navigation("PostComments");
                 });
 #pragma warning restore 612, 618
         }

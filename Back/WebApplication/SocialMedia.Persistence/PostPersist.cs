@@ -22,7 +22,7 @@ namespace SocialMedia.Persistence
 
         public async Task<IEnumerable<Post>> GetAllPostsAsync(int userId)
         {
-            IQueryable<Post> query = _context.Posts.Include(x => x.Comments);
+            IQueryable<Post> query = _context.Posts;
             query = query.AsNoTracking().Where(x=>x.UserId == userId).OrderBy(x=>x.Id);
 
             return await query.ToListAsync();
@@ -30,10 +30,18 @@ namespace SocialMedia.Persistence
 
         public async Task<Post> GetPostByIdAsync(int id, int userId)
         {
-            IQueryable<Post> query = _context.Posts.Include(x => x.Comments);
+            IQueryable<Post> query = _context.Posts;
             query = query.AsNoTracking().Where(x=>x.Id == id && x.UserId == userId);
 
             return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<PostComment>> GetAllCommentsByPostIdAsync(int postId)
+        {
+            IQueryable<PostComment> query = _context.PostComments;
+            query = query.AsNoTracking().Where(x => x.PostId == postId).OrderBy(x => x.Id);
+
+            return await query.ToListAsync();
         }
     }
 }

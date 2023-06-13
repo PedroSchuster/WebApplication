@@ -4,7 +4,7 @@ using SocialMedia.Persistence;
 using SocialMedia.Persistence.Contextos;
 using SocialMedia.Persistence.Contratos;
 
-namespace ProEventos.Persistence
+namespace SocialMedia.Persistence
 {
     public class UserPersist : GeralPersist, IUserPersist
     {

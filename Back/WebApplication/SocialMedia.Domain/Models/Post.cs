@@ -11,12 +11,14 @@ namespace SocialMedia.Domain.Models
     {
         public int Id { get; set; }
 
+        public int? RootId { get; set; }
+
         public int UserId { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         public string? Body { get; set; }
 
-        public IEnumerable<Comment>? Comments { get; set; }
+        public IEnumerable<PostComment>? PostComments { get; set; }
     }
 }

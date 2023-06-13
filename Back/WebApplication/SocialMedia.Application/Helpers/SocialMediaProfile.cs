@@ -10,7 +10,6 @@ namespace ProEventos.Application.Helpers
         public SocialMediaProfile()
         {
             CreateMap<Post, PostDto>().ReverseMap();
-            CreateMap<Comment, CommentDto>().ReverseMap();
 
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<User, UserUpdateDto>().ReverseMap();
