@@ -16,28 +16,31 @@ namespace SocialMedia.Application
     public class PostService : IPostService
     {
         private readonly IPostPersist _postPersist;
+        private readonly IUserPersist _userPersist;
         private readonly IMapper _mapper;
 
-        public PostService(IPostPersist postPersist, IMapper mapper)
+        public PostService(IPostPersist postPersist, IUserPersist userPersist,IMapper mapper)
         {
             _postPersist = postPersist;
+            _userPersist = userPersist;
             _mapper = mapper;
 
         }
 
-        public async Task<PostDto> AddPosts(int userId, PostDto model)
+        public async Task<PostDto> AddPosts(int userId, string userName,PostDto model)
         {
             try
             {
                 var post = _mapper.Map<Post>(model);
                 post.UserId = userId; // ver se precisa
+                post.UserName = userName;
 
                 _postPersist.Add<Post>(post);
 
                 if (await _postPersist.SaveChangesAsync())
                 {
                     var resultado = await _postPersist.GetPostByIdAsync(post.Id, userId); // verificaçao se foi criado msm
-                    if (post.RootId != null || post.RootId != 0)
+                    if (post.RootId != null && post.RootId != 0)
                     {
                         await SaveComment(post.Id, post.RootId.Value);
                     }

@@ -63,7 +63,7 @@ namespace SocialMedia.API.Controllers
         {
             try
             {
-                var post = await _postService.AddPosts(User.GetUserId(), model);
+                var post = await _postService.AddPosts(User.GetUserId(), User.GetUserName(), model);
                 if (post == null) return NoContent();
 
                 return Ok(post);

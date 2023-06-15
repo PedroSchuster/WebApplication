@@ -9,6 +9,8 @@ namespace SocialMedia.Application.Contratos
 
         Task<UserUpdateDto> GetUserbyUserNameAsync(string userName);
 
+        Task<UserDto> GetUserbyIdAsync(int id);
+
         Task<SignInResult> CheckUserPasswordAsync(UserUpdateDto userUpdateDto, string password);
 
         Task<UserUpdateDto> CreateAccountAsync(UserDto userDto);

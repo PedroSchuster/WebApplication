@@ -37,6 +37,20 @@ namespace SocialMedia.API.Controllers
             }
         }
 
+        [HttpGet("getuser/{id}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            try
+            {
+                var user = await _accountService.GetUserbyIdAsync(id);
+                if (user == null) return NoContent();
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar Usuário. Erro: {ex.Message} ");
+            }
+        }
 
         [HttpPost("register")]
         [AllowAnonymous]

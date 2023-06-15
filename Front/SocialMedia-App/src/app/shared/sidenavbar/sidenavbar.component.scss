@@ -1,0 +1,26 @@
+.nav-item{
+  color: white;
+  margin-bottom: 4rem;
+
+}
+.nav-item.active{
+  font-weight: bold;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.roundedc{
+  transition: background-color 0.3s ease;
+  border-radius: 50rem;
+  cursor: pointer;
+}
+
+.roundedc:hover {
+  background-color: #2F2F2F;
+}
+
+.d-xl-block {
+  padding-left: 3rem;
+}

@@ -80,6 +80,23 @@ namespace SocialMedia.Application
             }
         }
 
+        public async Task<UserDto> GetUserbyIdAsync(int id)
+        {
+            try
+            {
+                var user = await _userPersist.GetUserByIdAsync(id);
+                if (user == null) return null;
+
+                var userDto = _mapper.Map<UserDto>(user);
+                return userDto;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Erro ao tentar pegar usuário por username. Erro: " + ex.Message);
+            }
+        }
+
         public async Task<UserUpdateDto> UpdateAccount(UserUpdateDto userUpdateDto)
         {
             try

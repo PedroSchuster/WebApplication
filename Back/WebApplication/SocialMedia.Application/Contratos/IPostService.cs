@@ -9,7 +9,7 @@ namespace SocialMedia.Domain.Contratos
 {
     public interface IPostService
     {
-        Task<PostDto> AddPosts(int userId, PostDto model);
+        Task<PostDto> AddPosts(int userId, string userName, PostDto model);
 
         Task<PostDto> UpdatePost(int userId, int postId, PostDto model);
 
