@@ -1,0 +1,13 @@
+.search-results{
+  height: 50rem;
+  overflow: scroll;
+}
+.post{
+  background: #212529;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  opacity: 95%;
+}
+.post:hover{
+background-color: #36393d;
+}

@@ -50,7 +50,7 @@ namespace SocialMedia.API.Controllers
             }
         }
 
-        [HttpGet("/comments/{postId}")]
+        [HttpGet("comments/{postId}")]
         public async Task<IActionResult> GetAllCommentsByPostId(int postId)
         {
             var comments = await _postService.GetAllCommentsAsync(postId, User.GetUserId());

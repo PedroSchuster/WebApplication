@@ -45,7 +45,7 @@ namespace SocialMedia.Application
             var tokenDescription = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
+                Expires = DateTime.Now.AddYears(1),
                 SigningCredentials = creds  // baseado em uma chave de criptografia
             };
 

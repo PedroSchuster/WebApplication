@@ -1,4 +1,54 @@
 .search-results{
-  height: 50rem;
-  overflow: scroll;
+  height: 92.4vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+
+.card-transparent {
+  background-color: transparent;
+}
+
+.container-fluid {
+  height: 92.4vh;
+  padding-left: 0;
+  padding-right: 0;
+}
+.card-no-border {
+  border: none !important;
+}
+
+.noround{
+  border-radius: 0;
+}
+
+.select-tl{
+  background: #212529;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  opacity: 95%;
+}
+.select-tl:hover{
+background-color: #36393d;
+}
+
+
+.textarea:focus{
+  outline:0px !important;
+  box-shadow: none !important;
+}
+.textarea {
+  border: 1px solid #ccc;
+  font-family: inherit;
+  font-size: inherit;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  min-height:6rem;
+  line-height: 20px;
+  cursor:text;
+}
+.textarea[contenteditable]:empty::before {
+  content: "No que você está pensando?";
+  color: gray;
 }

@@ -1,1 +1,72 @@
-<p>post-details works!</p>
+<div class="container-fluid p-0 mt-5 ">
+  <div *ngIf="post.rootId != null" >
+    <div *ngFor="let rootPost of post.parents" >
+      <div class=" border border-light text-light my-3 post" (click)="postDetails(rootPost?.id)">
+        <div class="p-3 d-flex justify-content-between">
+          <span>
+            <i class="pe-3 fa fa-house"></i>
+            <span>{{rootPost?.userName}}</span>
+          </span>
+          <span>{{rootPost?.date | DateFormatPipe}}</span>
+        </div>
+        <div class="p-3 pt-0">
+          <p>
+            {{rootPost?.body}}
+          </p>
+        </div>
+      </div>
+      <div class="text-center">
+        <i class="fas	fa-long-arrow-alt-down text-light "></i>
+      </div>
+    </div>
+
+    </div>
+  <div class=" border border-light text-light mt-3 mb-4">
+    <div class="p-3 d-flex justify-content-between">
+      <span>
+        <i class="pe-3 fa fa-house"></i>
+        <span>{{post.userName}}</span>
+      </span>
+      <span>{{post.date | DateFormatPipe}}</span>
+    </div>
+    <div class="p-3 pt-0">
+      <p>
+        {{post.body}}
+      </p>
+    </div>
+  </div>
+  <div class="text-light input-group border d-inline-block border-light p-3  ">
+    <fieldset class="h-100 ">
+      <span>
+        <i class="pe-3 fa fa-solid fa-house"></i>
+      </span>
+      <span class="textarea text-light border-0 mt-3 p-0 "
+      (input)="updatePost($event)"
+      role="textbox" contenteditable>
+    </span>
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-success text-light
+        h-30 bottom-0 end-0 me-3 mb-3 mt-3 rounded" (click)="addComment()" [disabled]="!comment.body">Publicar</button>
+      </div>
+    </fieldset>
+    </div>
+
+  <div class=" post p-0 m-3" *ngFor="let comment of post.comments"  (click)="postDetails(comment.id)">
+    <div class="border border-light text-light ">
+        <div class="p-3 d-flex justify-content-between">
+          <span>
+            <i class="pe-3 fa fa-house"></i>
+            <span>{{comment.userName}}</span>
+          </span>
+          <span>{{comment.date | DateFormatPipe}}</span>
+        </div>
+        <div class="p-3 pt-0">
+          <p>
+            {{comment.body}}
+          </p>
+        </div>
+      </div>
+    </div>
+
+</div>
+

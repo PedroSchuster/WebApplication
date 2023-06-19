@@ -7,13 +7,15 @@ using SocialMedia.Domain.Models;
 
 namespace SocialMedia.Application.Dtos
 {
-    public class PostDto
+    public class PostTLDto
     {
         public int? Id { get; set; }
 
-        public int? RootId { get; set; }
-
         public int? UserId { get; set; }
+
+        public string? UserIcon { get; set; }
+
+        public string? UserName { get; set; }
 
         public string? Date { get; set; }
 

@@ -115,14 +115,14 @@ namespace SocialMedia.Application
             }
         }
 
-        public async Task<IEnumerable<PostDto>> GetAllPostsAsync(int userId)
+        public async Task<IEnumerable<PostTLDto>> GetAllPostsAsync(int userId)
         {
             try
             {
                 var posts = await _postPersist.GetAllPostsAsync(userId);
                 if (posts == null) return null;
                 
-                return _mapper.Map<IEnumerable<PostDto>>(posts);
+                return _mapper.Map<IEnumerable<PostTLDto>>(posts);
             }
             catch (Exception ex)
             {
@@ -130,7 +130,30 @@ namespace SocialMedia.Application
             }
         }
 
-        public async Task<IEnumerable<PostDto>> GetAllCommentsAsync(int postId, int userId)
+        public async Task<IEnumerable<PostDetailsDto>> GetAllParentsAsync(int postId, int userId)
+        {
+            try
+            {
+                var currentPost = await _postPersist.GetPostByIdAsync(postId, userId);
+                int? rootId = currentPost.RootId;
+                List<PostDetailsDto> parents = new List<PostDetailsDto>();
+
+                while (rootId != null)
+                {
+                    currentPost = await _postPersist.GetPostByIdAsync(rootId.Value, userId);
+                    parents.Add(_mapper.Map<PostDetailsDto>(currentPost));
+                    rootId = currentPost.RootId;
+                }
+              
+                return parents.OrderBy(x=>x.Id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<IEnumerable<PostDetailsDto>> GetAllCommentsAsync(int postId, int userId)
         {
             try
             {
@@ -140,10 +163,9 @@ namespace SocialMedia.Application
                 foreach (var comment in comments)
                 {
                     comment.Comment = await _postPersist.GetPostByIdAsync(comment.CommentId, userId);
-                    comment.PostId = postId;
                 }
                 List<Post> result = comments.Select(x => x.Comment).ToList();
-                return _mapper.Map<List<PostDto>>(result);
+                return _mapper.Map<List<PostDetailsDto>>(result);
             }
             catch (Exception ex)
             {
@@ -151,17 +173,17 @@ namespace SocialMedia.Application
             }
         }
 
-        public async Task<PostDto> GetPostByIdAsync(int postId, int userId)
+        public async Task<PostDetailsDto> GetPostByIdAsync(int postId, int userId)
         {
             try
             {
                 var post = await _postPersist.GetPostByIdAsync(postId, userId);
                 if (post == null) return null;
 
-                var result = _mapper.Map<PostDto>(post);
-                result.Comments = await GetAllCommentsAsync(postId, userId);
-
-                return result;
+                var postMapped =  _mapper.Map<PostDetailsDto>(post);
+                postMapped.Comments = await GetAllCommentsAsync(postId, userId);
+                postMapped.Parents = await GetAllParentsAsync(postId, userId);
+                return postMapped;
             }
             catch (Exception ex)
             {

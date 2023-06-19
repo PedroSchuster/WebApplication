@@ -1,0 +1,28 @@
+.post{
+  background: #212529;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  opacity: 95%;
+}
+.post:hover{
+background-color: #36393d;
+}
+.textarea:focus{
+  outline:0px !important;
+  box-shadow: none !important;
+}
+.textarea {
+  border: 1px solid #ccc;
+  font-family: inherit;
+  font-size: inherit;
+  cursor:text;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  min-height:1rem;
+  line-height: 20px;
+}
+.textarea[contenteditable]:empty::before {
+  content: "No que você está pensando?";
+  color: gray;
+}

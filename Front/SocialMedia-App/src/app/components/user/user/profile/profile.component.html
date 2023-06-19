@@ -1,0 +1,71 @@
+<div class="container-fluid post" >
+  <div class=" text-light my-4">
+    <div class="row p-3 border border-light">
+      <form>
+        <div class="col-lg-12 pt-1 h-100">
+          <div class="row bg-dark text-light shadow-0 border-0 mb-3">
+            <div class="mt-4 col-1 me-5">
+              <a href="#aboutModal" data-toggle="modal" data-target="#myModal">
+                <img
+                src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R"
+                name="aboutme" width="120" height="120" class="rounded-circle">
+              </a>
+            </div>
+            <div class="col-3 mt-5">
+              <div class="h5 text-bold mb-0">{{user.firstName | titlecase}} {{user.lastName | titlecase}} </div>
+              <div class="subinfo mt-1 ">@{{user.userName}}</div>
+            </div>
+            <div class="col-3 mt-5 ">
+              <div class="d-inline-block">
+                <div class="h5 text-bold mb-0">Seguindo</div>
+                <div class="subinfo mt-1 ">2345</div>
+              </div>
+
+            </div>
+            <div class="col-3 mt-5">
+              <div class="h5 text-bold mb-0">Seguidores</div>
+              <div class="subinfo mt-1 ">242</div>
+            </div>
+            <div class="col-1 mt-5 ms-auto">
+              <button *ngIf="editMode" class="btn btn-primary" type="submit">Editar</button>
+              <button *ngIf="!editMode"  class="btn btn-primary" type="submit">Seguir</button>
+            </div>
+          </div>
+          <div>
+            <div class="bio">
+              Exemplo de bioxemplo de bioxemplo de bioxemplo de bioxemplo de
+              bioxemplo de bioxemplo de bioxemplo de bioxemplo de bioxemplo de
+              bioxemplo de bioxemplo de bioxemplo de bioxemplo de bioxemplo de
+              xemplo de bioxemplo de bioxemplo de bio
+              xemplo de bio
+              xemplo de biobioxemplo de bioxemplo de bioxemplo de bio Exemplo de bioxemplo de bioxemplo de bioxemplo de bioxemplo de
+              bioxemplo de bioxemplo de bioxemplo de bioxemplo de bioxemplo de
+              bioxemplo de bioxemplo de bioxemplo de bioxemplo de bioxemplo de
+              xemplo de bioxemplo de bioxemplo de bio
+              xemplo de bio
+              xemplo de biobioxemplo de bioxemplo de bioxemplo de bio
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+              <div class="subinfo">
+                Telefone: 4898813487
+              </div>
+              <div class="subinfo ms-auto">
+                Email: pedro.ssc42@gmail.com
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </form>
+  </div>
+  <div class="m-3" *ngFor="let item of posts">
+    <app-post-tl
+      [body]="item.body"
+      [userName]="item.userName"
+      [date]="item.date"
+      [id]="item.id"
+    >
+    </app-post-tl>
+    </div>
+
+</div>

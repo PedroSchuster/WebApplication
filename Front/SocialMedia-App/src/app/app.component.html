@@ -1,56 +1,47 @@
-<div>
-  <app-upperbar class=" d-sm-block d-none "></app-upperbar>
-  <div class="container-fluid bg-dark search-results"
-  infinite-scroll
-  [infiniteScrollDistance]="1"
-  [infiniteScrollThrottle]="500"
-  (scrolled)="onScroll()"
-  [scrollWindow]="false">
-      <div class="row "
-      >
-      <div class="col-xxl-2 col-lg-2 col-sm-1 d-sm-block d-none ">
-        <div class="card card-transparent shadow-none border-0 sticky-top">
-          <div class="card-body p-0">
-            <app-sidenavbar></app-sidenavbar>
-          </div>
-        </div>
-      </div>
-      <div class="col-xxl-8 col-lg-7 col-sm-11 mt-sm-5 ">
-        <div class="card card-transparent shadow-none border-0 ">
-          <div class="card-body py-0 " *ngFor="let item of posts">
-            <app-timeline
-            [body]="item.body"
-            [userName]="item.userName"
-            [date]="item.date">
-            </app-timeline>
-          </div>
-        </div>
-      </div>
-      <div class="col-xxl-2 col-lg-3 d-lg-block d-none ps-0">
-        <div class="card card-transparent shadow-none border-0 sticky-top" >
-          <div class="card-body ps-0">
-            <app-search></app-search>
-          </div>
+<app-upperbar class=" d-sm-block d-none h-100"></app-upperbar>
+
+<div class="container-fluid bg-dark search-results "
+infinite-scroll
+[infiniteScrollDistance]="1"
+[infiniteScrollThrottle]="500"
+(scrolled)="onScroll()"
+[scrollWindow]="false">
+
+    <div class="row "
+    >
+    <div class="col-2 d-sm-block d-none ps-md-4 ps-lg-0 ps-xl-4 ps-xxl-5 ps-sm-3">
+      <div class="card card-transparent shadow-none border-0 sticky-top">
+        <div class="card-body p-0">
+          <app-sidenavbar></app-sidenavbar>
         </div>
       </div>
     </div>
-
-    <div class="d-lg-none d-inline ">
-      <div class="card shadow-none border-0">
-        <div class="card-body  bg-white">
-          <app-sidenavbar ></app-sidenavbar>
-        </div>
+    <div class="col-sm-10 pt-0 ps-sm-0 ps-md-0 ps-lg-3 p-0 ">
+      <div class="card card-transparent shadow-none border-0 ">
+        <div class="card-body p-0 ">
+          <router-outlet></router-outlet>
       </div>
     </div>
   </div>
 
-  <ngx-spinner
-  bdColor="rgba(51,51,51,0.8)"
-  size="medium"
-  color="#fff"
-  type="ball-scale-multiple"
-  >
-  <p style="font-size: 20px; color: white;">Carregando...</p>
-  </ngx-spinner>
+  <div class="d-sm-none d-inline mt-5">
+    <div class="card shadow-none border-0">
+      <div class="card-body p-0">
+        <app-sidenavbar ></app-sidenavbar>
+      </div>
+    </div>
+  </div>
 
 </div>
+
+
+
+
+<ngx-spinner
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple"
+>
+<p style="font-size: 20px; color: white;">Carregando...</p>
+</ngx-spinner>

@@ -28,9 +28,6 @@ import { AppComponent } from './app.component';
 
 
 import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
-import { UserComponent } from './components/user/user.component';
-import { LoginComponent } from './components/user/login/login.component';
-import { RegistrationComponent } from './components/user/registration/registration.component';
 import { AccountService } from './services/account.service';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { UpperbarComponent } from './shared/uppebar/upperbar/sidenavbar/upperbar/upperbar.component';
@@ -40,6 +37,12 @@ import { SearchComponent } from './components/user/search/search.component';
 import { TimelineComponent } from './components/user/home/home/timeline/timeline.component';
 import { PostDetailsComponent } from './components/user/home/home/post-details/post-details.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { PostService } from './services/post.service';
+import { PostTLComponent } from './components/user/home/home/post-tl/post-tl.component';
+import { UserComponent } from './components/user/user/user.component';
+import { LoginComponent } from './components/user/user/login/login.component';
+import { ProfileComponent } from './components/user/user/profile/profile.component';
+import { RegistrationComponent } from './components/user/user/registration/registration.component';
 
 defineLocale('pt-br', ptBrLocale);
 
@@ -55,7 +58,9 @@ defineLocale('pt-br', ptBrLocale);
     HomeComponent,
     SearchComponent,
     TimelineComponent,
-    PostDetailsComponent
+    PostDetailsComponent,
+    PostTLComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -84,6 +89,7 @@ defineLocale('pt-br', ptBrLocale);
   ],
   providers: [
     AccountService,
+    PostService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
