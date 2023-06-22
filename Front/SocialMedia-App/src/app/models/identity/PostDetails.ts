@@ -6,6 +6,8 @@ export class PostDetails {
   userName: string;
   date: string;
   body: string;
+  totalLikes: number;
+  totalComments: number;
   comments: PostDetails[];
   parents: PostDetails[]
 }

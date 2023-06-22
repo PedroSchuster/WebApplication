@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SocialMedia.Application.Contratos;
 using SocialMedia.Application.Dtos;
 using SocialMedia.Domain.Identity;
+using SocialMedia.Domain.Models;
 using SocialMedia.Persistence.Contratos;
 
 namespace SocialMedia.Application
@@ -71,6 +72,16 @@ namespace SocialMedia.Application
                 if (user == null) return null;
 
                 var userUpdateDto = _mapper.Map<UserUpdateDto>(user);
+
+                var following = await _userPersist.GetFollowing(user.Id);
+                userUpdateDto.Following = _mapper.Map<IEnumerable<UserUpdateDto>>(following);
+                
+                userUpdateDto.FollowingCount = following.Count() > 0? following.Count() : 0;
+
+                var followers = await _userPersist.GetFollowers(user.Id);
+                userUpdateDto.Followers = _mapper.Map<IEnumerable<UserUpdateDto>>(followers);
+                userUpdateDto.FollowersCount = followers.Count() > 0? followers.Count() : 0;   
+
                 return userUpdateDto;
             }
             catch (Exception ex)
@@ -97,14 +108,19 @@ namespace SocialMedia.Application
             }
         }
 
+
         public async Task<UserUpdateDto> UpdateAccount(UserUpdateDto userUpdateDto)
         {
             try
             {
-                var user = await _userPersist.GetUserByUserNameAsync(userUpdateDto.UserName); // do jeito q eh feito n pode alterar o user name
+                var user = await _userPersist.GetUserByIdAsync(userUpdateDto.Id); 
                 if (user == null) return null;
 
-                userUpdateDto.Id = user.Id;
+                // a imagem ja foi atualiazada em outro lugar
+                if (userUpdateDto.ProfilePicURL == null || userUpdateDto.ProfilePicURL == "")
+                {
+                    userUpdateDto.ProfilePicURL = user.ProfilePicURL;
+                }
 
                 _mapper.Map(userUpdateDto, user);
 
@@ -143,6 +159,59 @@ namespace SocialMedia.Application
             catch (Exception ex)
             {
 
+                throw new Exception("Erro ao tentar verificar se usuário existe. Erro: " + ex.Message);
+            }
+        }
+
+        public async Task<bool> CreateUserRelation(int userId, string userToFollow)
+        {
+            try
+            {
+                var user = await _userPersist.GetUserByIdAsync(userId);
+                if (user == null) return false;
+
+                var userToFollowObj = await _userPersist.GetUserByUserNameAsync(userToFollow);
+                if (userToFollowObj == null) return false;
+
+                var userRelationCheck = await _userPersist.GetUserRelation(userId, userToFollowObj.Id);
+                if (userRelationCheck != null) return false;
+
+                var userRelation = new UserRelation
+                {
+                    User = user,
+                    UserId = userId,
+                    Following = userToFollowObj,
+                    FollowingId = userToFollowObj.Id
+                };
+
+                _userPersist.Add<UserRelation>(userRelation);
+
+                return await _userPersist.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao tentar verificar se usuário existe. Erro: " + ex.Message);
+            }
+        }
+
+        public async Task<bool> DeleteUserRelation(int userId, string following)
+        {
+            try
+            {
+                var user = await _userPersist.GetUserByIdAsync(userId);
+                if (user == null) return false;
+
+                var followingObj = await _userPersist.GetUserByUserNameAsync(following);
+                if (followingObj == null) return false;
+
+                var userRelation = await _userPersist.GetUserRelation(userId, followingObj.Id);
+
+                _userPersist.Delete(userRelation);
+
+                return await _userPersist.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
                 throw new Exception("Erro ao tentar verificar se usuário existe. Erro: " + ex.Message);
             }
         }

@@ -15,10 +15,10 @@ namespace SocialMedia.Domain.Contratos
 
         Task<bool> Remove(int userId, int postId);
 
-        Task<IEnumerable<PostDetailsDto>> GetAllCommentsAsync(int postId, int userId);
+        Task<IEnumerable<PostDetailsDto>> GetAllCommentsAsync(int postId);
 
         Task<IEnumerable<PostTLDto>> GetAllPostsAsync(int userId);
 
-        Task<PostDetailsDto> GetPostByIdAsync(int postId, int userId);
+        Task<PostDetailsDto> GetPostByIdAsync(int postId);
     }
 }

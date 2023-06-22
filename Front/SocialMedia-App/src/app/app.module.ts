@@ -43,6 +43,7 @@ import { UserComponent } from './components/user/user/user.component';
 import { LoginComponent } from './components/user/user/login/login.component';
 import { ProfileComponent } from './components/user/user/profile/profile.component';
 import { RegistrationComponent } from './components/user/user/registration/registration.component';
+import { CropService, ImageCropperModule } from 'ngx-image-cropper';
 
 defineLocale('pt-br', ptBrLocale);
 
@@ -59,8 +60,8 @@ defineLocale('pt-br', ptBrLocale);
     SearchComponent,
     TimelineComponent,
     PostDetailsComponent,
+    ProfileComponent,
     PostTLComponent,
-    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -80,16 +81,15 @@ defineLocale('pt-br', ptBrLocale);
     TabsModule.forRoot(),
     ModalModule.forRoot(),
     ToastrModule.forRoot({
-      timeOut: 4000,
+      timeOut: 7000,
       positionClass: 'toast-bottom-right',
-      preventDuplicates: true,
-      progressBar: true,
+      preventDuplicates: true
     }),
     NgxSpinnerModule,
   ],
   providers: [
-    AccountService,
     PostService,
+    AccountService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

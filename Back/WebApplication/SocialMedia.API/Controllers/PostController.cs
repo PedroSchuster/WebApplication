@@ -18,12 +18,12 @@ namespace SocialMedia.API.Controllers
             _postService = postService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetPosts()
+        [HttpGet("getposts/{userId}")]
+        public async Task<IActionResult> GetPosts(int userId)
         {
             try
             {
-                var posts = await _postService.GetAllPostsAsync(User.GetUserId());
+                var posts = await _postService.GetAllPostsAsync(userId);
                 if (posts == null) return NoContent();
 
                 return Ok(posts);
@@ -34,12 +34,12 @@ namespace SocialMedia.API.Controllers
             }
         }
 
-        [HttpGet("{postId}")]
+        [HttpGet("getpostbyid/{postId}")]
         public async Task<IActionResult> GetPostById(int postId)
         {
             try
             {
-                var post = await _postService.GetPostByIdAsync(postId, User.GetUserId());
+                var post = await _postService.GetPostByIdAsync(postId);
                 if (post == null) return NoContent();
 
                 return Ok(post);
@@ -53,7 +53,7 @@ namespace SocialMedia.API.Controllers
         [HttpGet("comments/{postId}")]
         public async Task<IActionResult> GetAllCommentsByPostId(int postId)
         {
-            var comments = await _postService.GetAllCommentsAsync(postId, User.GetUserId());
+            var comments = await _postService.GetAllCommentsAsync(postId);
             if (comments == null) return NoContent();
             return Ok(comments);
         }
@@ -90,12 +90,14 @@ namespace SocialMedia.API.Controllers
             }
         }
 
+
+
         [HttpDelete("{postId}")]
         public async Task<IActionResult> DeletePost(int postId)
         {
             try
             {
-                var post = await _postService.GetPostByIdAsync(postId, User.GetUserId());
+                var post = await _postService.GetPostByIdAsync(postId);
                 if (post == null) return NoContent();
 
                 if (await _postService.Remove(User.GetUserId(), postId))

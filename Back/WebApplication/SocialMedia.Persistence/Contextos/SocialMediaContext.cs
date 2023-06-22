@@ -14,6 +14,8 @@ namespace SocialMedia.Persistence.Contextos
 
         public DbSet<PostComment> PostComments { get; set; }
 
+        public DbSet<UserRelation> UserRelations { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Data Source=DESKTOP-76E2JNA;Initial Catalog=SocialMediaDB;MultipleActiveResultSets=true;" +
                                         "TrustServerCertificate=True;Integrated Security=True;");
@@ -31,6 +33,17 @@ namespace SocialMedia.Persistence.Contextos
                 .HasOne(x => x.Post)
                 .WithMany(x => x.PostComments)
                 .HasForeignKey(x => x.PostId);
+
+            modelBuilder.Entity<UserRelation>()
+            .HasOne(x => x.Following)
+            .WithMany()
+            .HasForeignKey(x => x.FollowingId)
+            .OnDelete(DeleteBehavior.Restrict);
+           
+            modelBuilder.Entity<UserRelation>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.UserRelations)
+                .HasForeignKey(x => x.UserId);
         }
 
     }

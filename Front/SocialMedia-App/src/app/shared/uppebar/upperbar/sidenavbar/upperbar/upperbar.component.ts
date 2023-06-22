@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserUpdate } from '@app/models/identity/UserUpdate';
 import { AccountService } from '@app/services/account.service';
 
 @Component({
@@ -9,13 +10,10 @@ import { AccountService } from '@app/services/account.service';
 })
 export class UpperbarComponent {
   isCollapsed = true;
-
   constructor(public accountService: AccountService,
     private router: Router) {}
 
-  ngOnInit(
-
-  ): void {
+  ngOnInit(): void {
   }
 
   logout(): void{
@@ -26,4 +24,6 @@ export class UpperbarComponent {
   showMenu(): boolean{
       return this.router.url != '/user/login';
     }
+
+
 }

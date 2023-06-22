@@ -30,10 +30,10 @@ namespace SocialMedia.Persistence
             return await query.ToListAsync();
         }
 
-        public async Task<Post> GetPostByIdAsync(int id, int userId)
+        public async Task<Post> GetPostByIdAsync(int id)
         {
             IQueryable<Post> query = _context.Posts;
-            query = query.AsNoTracking().Where(x => x.Id == id && x.UserId == userId);
+            query = query.AsNoTracking().Where(x => x.Id == id);
 
             return await query.FirstOrDefaultAsync();
         }

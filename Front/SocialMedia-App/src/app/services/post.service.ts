@@ -18,28 +18,22 @@ export class PostService {
   public currentPosts$ = this.postsSource.asObservable();
 
   updateTimeLine(){
-  this.getPosts().subscribe(
-    (response: PostTL[]) => {
-      this.timelinePosts = [...this.timelinePosts, ...response];
-      this.postsSource.next(this.timelinePosts);
-    },
-    (error: any) => console.log("Ocorreu um erro em carregar os posts" + error)
-  );
-}
+
+  }
 
   constructor(private http: HttpClient) { }
 
 
-  public getPosts(): Observable<PostTL[]>{
-    return this.http.get<PostTL[]>(this.baseURL).pipe(take(1));
+  public getPosts(userId:number): Observable<PostTL[]>{
+    return this.http.get<PostTL[]>(`${this.baseURL}/getposts/${userId}`).pipe(take(1));
   }
 
-  public getPostById(id: number): Observable<PostTL>{
-    return this.http.get<PostDetails>(`${this.baseURL}/${id}`).pipe(take(1));
+  public getPostById(id: number): Observable<PostDetails>{
+    return this.http.get<PostDetails>(`${this.baseURL}/getpostbyid/${id}`).pipe(take(1));
   }
 
   public getCommentsByPostId(id: number): Observable<PostTL[]>{
-    return this.http.get<PostDetails[]>(`${this.baseURL}/comments/${id}`).pipe(take(1));
+    return this.http.get<PostTL[]>(`${this.baseURL}/comments/${id}`).pipe(take(1));
   }
 
   public addPost(post: Post): Observable<Post>{

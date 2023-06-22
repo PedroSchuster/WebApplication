@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, map, take } from 'rxjs';
 import { User } from '../models/identity/User';
@@ -38,17 +38,45 @@ export class AccountService {
     return this.http.get<UserUpdate>(this.baseURL + 'getUser').pipe(take(1));
   }
 
+  public getUserByUserName(userName: string): Observable<UserUpdate>{
+    return this.http.get<UserUpdate>(`${this.baseURL}getUserByUserName/${userName}`).pipe(take(1));
+  }
+
   public getUserById(id: number): Observable<User>{
     return this.http.get<User>(`${this.baseURL}getUser/${id}`).pipe(take(1));
   }
 
-  updateUser(model: UserUpdate): Observable<void>{
+  public checkUserName(userName: string): Observable<string>{
+    return this.http.get<string>(`${this.baseURL}checkusername/${userName}`).pipe(take(1));
+  }
+
+  public followUser(userName: string): Observable<string>{
+    const formData = new FormData();
+    formData.append('userName', userName);
+    return this.http.put<any>(`${this.baseURL}follow`, formData).pipe(take(1));
+  }
+
+  public unfollowUser(userName: string): Observable<string>{
+    const formData = new FormData();
+    formData.append('userName', userName);
+    return this.http.put<any>(`${this.baseURL}unfollow`, formData).pipe(take(1));
+  }
+
+  public updateUser(model: UserUpdate): Observable<void>{
     return this.http.put<UserUpdate>(this.baseURL + 'updateuser', model).pipe(
       take(1),
       map((user: UserUpdate) => {
         this.setCurrentUser(user);
       })
     );
+  }
+
+  public uploadImage(file: File): Observable<UserUpdate>{
+    const fileToUpload = file[0] as File;
+    const formData = new FormData();
+    formData.append('file', fileToUpload);
+
+    return this.http.post<UserUpdate>(`${this.baseURL}upload-image`, formData).pipe(take(1));
   }
 
   public register(model: any): Observable<void>{

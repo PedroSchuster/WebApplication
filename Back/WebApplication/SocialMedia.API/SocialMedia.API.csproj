@@ -31,4 +31,8 @@
     <ProjectReference Include="..\SocialMedia.Application\SocialMedia.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\Images\" />
+  </ItemGroup>
+
 </Project>

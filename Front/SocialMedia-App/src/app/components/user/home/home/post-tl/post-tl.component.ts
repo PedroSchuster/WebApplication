@@ -17,7 +17,6 @@ export class PostTLComponent implements OnInit {
   @Input() body: string;
   @Input() date: string;
   @Input() id: number;
-
   user: User;
   constructor(
     private router: Router
@@ -26,8 +25,8 @@ export class PostTLComponent implements OnInit {
   public ngOnInit(): void {
   }
 
-  public postDetails(id: number): void{
-    this.router.navigate([`home/post/${id}`])
+  public postDetails(): void{
+    this.router.navigate([`home/post/${this.id}`])
   }
 
 

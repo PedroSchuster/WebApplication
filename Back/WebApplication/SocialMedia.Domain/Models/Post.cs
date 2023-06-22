@@ -21,6 +21,10 @@ namespace SocialMedia.Domain.Models
 
         public string? Body { get; set; }
 
+        public int TotalLikes { get; set; } = 0;
+
+        public int TotalComments { get; set; } = 0;
+
         public IEnumerable<PostComment>? PostComments { get; set; }
     }
 }

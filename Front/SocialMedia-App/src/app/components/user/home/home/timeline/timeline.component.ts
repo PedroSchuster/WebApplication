@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Post } from '@app/models/identity/Post';
 import { PostTL } from '@app/models/identity/PostTl';
-import { User } from '@app/models/identity/User';
 import { AccountService } from '@app/services/account.service';
 import { PostService } from '@app/services/post.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -19,7 +18,7 @@ export class TimelineComponent implements OnInit {
   subscription: Subscription;
   public posts: PostTL[] = [];
 
-  constructor(public accountService: AccountService,
+  constructor(private accountService: AccountService,
     private postService: PostService,
     private spinner: NgxSpinnerService,
     private router: Router) {}

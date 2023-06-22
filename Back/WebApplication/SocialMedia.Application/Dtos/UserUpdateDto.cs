@@ -14,11 +14,22 @@
 
         public string? PhoneNumber { get; set; }
 
+        public string? ProfilePicURL { get; set; }
+
         public string? Bio { get; set; }
 
         public string? Password { get; set; }
 
         public string? Token { get; set; }
+
+        public IEnumerable<UserUpdateDto>? Followers { get; set; }
+
+        public int FollowersCount { get; set; }
+
+        public IEnumerable<UserUpdateDto>? Following { get; set; }
+
+        public int FollowingCount { get; set; }
+
 
     }
 }

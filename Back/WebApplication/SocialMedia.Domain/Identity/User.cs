@@ -16,6 +16,10 @@ namespace SocialMedia.Domain.Identity
 
         public string? Bio { get; set; }
 
+        public string? ProfilePicURL { get; set; }
+
+        public IEnumerable<UserRelation>? UserRelations { get; set; }
+
         public IEnumerable<Post>? Posts { get; set; }
 
     }

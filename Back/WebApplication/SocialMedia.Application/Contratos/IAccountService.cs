@@ -16,5 +16,9 @@ namespace SocialMedia.Application.Contratos
         Task<UserUpdateDto> CreateAccountAsync(UserDto userDto);
 
         Task<UserUpdateDto> UpdateAccount(UserUpdateDto userUpdateDto);
+
+        Task<bool> CreateUserRelation(int userId, string userToFollow);
+
+        Task<bool> DeleteUserRelation(int userId, string following);
     }
 }

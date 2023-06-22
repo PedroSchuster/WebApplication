@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialMedia.Persistence.Contextos;
 
@@ -11,9 +12,11 @@ using SocialMedia.Persistence.Contextos;
 namespace SocialMedia.Persistence.Migrations
 {
     [DbContext(typeof(SocialMediaContext))]
-    partial class SocialMediaContextModelSnapshot : ModelSnapshot
+    [Migration("20230621101236_UploadImage")]
+    partial class UploadImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -302,7 +305,7 @@ namespace SocialMedia.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("FollowingId")
+                    b.Property<int>("FollowerId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -310,11 +313,11 @@ namespace SocialMedia.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FollowingId");
+                    b.HasIndex("FollowerId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRelations");
+                    b.ToTable("UserRelation");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -398,9 +401,9 @@ namespace SocialMedia.Persistence.Migrations
 
             modelBuilder.Entity("SocialMedia.Domain.Models.UserRelation", b =>
                 {
-                    b.HasOne("SocialMedia.Domain.Identity.User", "Following")
+                    b.HasOne("SocialMedia.Domain.Identity.User", "Follower")
                         .WithMany()
-                        .HasForeignKey("FollowingId")
+                        .HasForeignKey("FollowerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -410,7 +413,7 @@ namespace SocialMedia.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Following");
+                    b.Navigation("Follower");
 
                     b.Navigation("User");
                 });

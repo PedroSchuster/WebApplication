@@ -5,5 +5,6 @@ export class PostTL {
   userName: string;
   date: string;
   body: string;
-
+  totalLikes: number;
+  totalComments: number;
 }

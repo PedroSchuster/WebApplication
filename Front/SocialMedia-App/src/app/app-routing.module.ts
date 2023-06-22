@@ -34,7 +34,8 @@ const routes: Routes = [
     children: [
       {path: 'login', component: LoginComponent},
       {path: 'registration', component: RegistrationComponent},
-      {path: 'profile', component: ProfileComponent}
+      {path: 'profile/', redirectTo: 'home/timeline'},
+      {path: 'profile/:userName', component: ProfileComponent}
     ]
   },
   {path: '**', redirectTo: 'home/timeline', pathMatch: 'full'}

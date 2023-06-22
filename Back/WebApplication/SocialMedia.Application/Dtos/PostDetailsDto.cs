@@ -23,6 +23,10 @@ namespace SocialMedia.Application.Dtos
 
         public string? Body { get; set; }
 
+        public int TotalLikes { get; set; } = 0;
+
+        public int TotalComments { get; set; } = 0;
+
         public IEnumerable<PostDetailsDto>? Comments { get; set; }
 
         public IEnumerable<PostDetailsDto>? Parents { get; set; }
