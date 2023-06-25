@@ -41,6 +41,22 @@ namespace SocialMedia.API.Controllers
             }
         }
 
+        [HttpPost("getusersbyfilter")]
+        public async Task<IActionResult> GetUsersByFilter()
+        {
+            try
+            {
+                var filter = Request.Form["filter"].ToString();
+                var users = await _accountService.GetUsersByFilterAsync(filter, User.GetUserName());
+                if (users == null) return NoContent();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar Usuários. Erro: {ex.Message} ");
+            }
+        }
+
         [HttpGet("getuser/{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
@@ -104,6 +120,7 @@ namespace SocialMedia.API.Controllers
                     {
                         userName = user.UserName,
                         firstName = user.FirstName,
+                        userId = user.Id,
                         token = _tokenService.CreateToken(user).Result
                     });
                 }
@@ -134,6 +151,7 @@ namespace SocialMedia.API.Controllers
                 {
                     userName = user.UserName,
                     firstName = user.FirstName,
+                    userId = user.Id,
                     token = _tokenService.CreateToken(user).Result
                 });
             }
@@ -158,6 +176,7 @@ namespace SocialMedia.API.Controllers
                 {
                     userName = userReturn.UserName,
                     firstName = userReturn.FirstName,
+                    userId = userReturn.Id,
                     token = _tokenService.CreateToken(userReturn).Result
                 });
             }

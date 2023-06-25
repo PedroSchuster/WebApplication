@@ -1,0 +1,31 @@
+.select-tl{
+  background: #212529;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  opacity: 95%;
+}
+.select-tl:hover{
+background-color: #36393d;
+}
+
+.select-tl input {
+  display: none;
+}
+
+.selected{
+  font-weight: bold;
+}
+
+i{
+  color: white;
+  background-color: transparent;
+}
+.subinfo{
+  font-size:medium;
+  color: #a7a9ac;
+}
+
+.upper-tab{
+  background: #212529;
+  opacity: 95%;
+}

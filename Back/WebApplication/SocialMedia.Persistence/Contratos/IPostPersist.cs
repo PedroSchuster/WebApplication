@@ -4,12 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SocialMedia.Domain.Models;
+using SocialMedia.Persistence.Models;
 
 namespace SocialMedia.Persistence.Contratos
 {
     public interface IPostPersist : IGeralPersist
     {
-        Task<IEnumerable<Post>> GetAllPostsAsync(int userId);
+        Task<PageList<Post>> GetAllPostsAsync(int userId, PageParams pageParams);
+
+        Task<PageList<Post>> GetPostsHomePageAsync(PageParams pageParams);
+
+        Task<PageList<Post>> GetPostsFollowingPageAsync(int userId, PageParams pageParams);
 
         Task<Post> GetPostByIdAsync(int id);
 

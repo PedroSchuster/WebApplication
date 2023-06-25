@@ -7,6 +7,8 @@ namespace SocialMedia.Persistence.Contratos
     {
         Task<IEnumerable<User>> GetUsersAsync();
 
+        Task<IEnumerable<User>> GetUsersByFilterAsync(string filter, string loggedUserName);
+
         Task<User> GetUserByIdAsync(int id);
 
         Task<User> GetUserByUserNameAsync(string userName);

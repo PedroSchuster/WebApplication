@@ -13,6 +13,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+  private pageNumber?: number = 2;
+  private itemsPerPage?: number = 10;
+  private userId: number;
+  private type: string;
+
   constructor(public accountService: AccountService,
     private postService: PostService,
     private spinner: NgxSpinnerService,
@@ -20,10 +26,18 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.setCurrentUser();
+    this.userId = JSON.parse(localStorage.getItem('user'))['userId'];
+
   }
 
   public onScroll(): void{
-    this.postService.updateTimeLine();
+    const currentTlType = localStorage.getItem('tlType');
+    this.pageNumber ++;
+    if (this.type != currentTlType){
+      this.type = currentTlType;
+      this.pageNumber = 2;
+    }
+    this.postService.updateTimeLine(this.userId, this.pageNumber, this.itemsPerPage);
   }
 
   setCurrentUser(): void{

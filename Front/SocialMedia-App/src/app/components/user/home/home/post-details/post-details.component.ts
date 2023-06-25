@@ -46,7 +46,6 @@ export class PostDetailsComponent implements OnInit {
     this.postService.getCommentsByPostId(this.postId).subscribe(
       (response: PostDetails[]) => {
         this.comments = response
-        console.log(response)
       },
       (error: any) => console.error(error)
     ).add(()=>this.spinner.hide());

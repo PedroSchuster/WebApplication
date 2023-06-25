@@ -42,6 +42,12 @@ export class AccountService {
     return this.http.get<UserUpdate>(`${this.baseURL}getUserByUserName/${userName}`).pipe(take(1));
   }
 
+  public getUsersByFilter(filter: string): Observable<UserUpdate[]>{
+    const formData = new FormData();
+    formData.append('filter', filter);
+    return this.http.post<any>(`${this.baseURL}getusersbyfilter`, formData).pipe(take(1));
+  }
+
   public getUserById(id: number): Observable<User>{
     return this.http.get<User>(`${this.baseURL}getUser/${id}`).pipe(take(1));
   }

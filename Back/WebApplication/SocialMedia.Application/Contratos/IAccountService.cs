@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SocialMedia.Application.Dtos;
+using SocialMedia.Domain.Identity;
 
 namespace SocialMedia.Application.Contratos
 {
@@ -8,6 +9,8 @@ namespace SocialMedia.Application.Contratos
         Task<bool> UserExists(string userName);
 
         Task<UserUpdateDto> GetUserbyUserNameAsync(string userName);
+
+        Task<IEnumerable<UserUpdateDto>> GetUsersByFilterAsync(string filter, string loggedUserName);
 
         Task<UserDto> GetUserbyIdAsync(int id);
 

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SocialMedia.Application.Dtos;
+using SocialMedia.Domain.Models;
+using SocialMedia.Persistence.Models;
 
 namespace SocialMedia.Domain.Contratos
 {
@@ -15,9 +17,13 @@ namespace SocialMedia.Domain.Contratos
 
         Task<bool> Remove(int userId, int postId);
 
-        Task<IEnumerable<PostDetailsDto>> GetAllCommentsAsync(int postId);
+        Task<PageList<PostTLDto>> GetAllPostsAsync(int userId, PageParams pageParams);
 
-        Task<IEnumerable<PostTLDto>> GetAllPostsAsync(int userId);
+        Task<PageList<PostTLDto>> GetPostsFollowingPageAsync(int userId, PageParams pageParams);
+
+        Task<PageList<PostTLDto>> GetPostsHomePageAsync(int userId, PageParams pageParams);
+
+        Task<IEnumerable<PostDetailsDto>> GetAllCommentsAsync(int postId);
 
         Task<PostDetailsDto> GetPostByIdAsync(int postId);
     }

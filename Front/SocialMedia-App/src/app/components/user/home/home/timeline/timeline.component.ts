@@ -18,14 +18,20 @@ export class TimelineComponent implements OnInit {
   subscription: Subscription;
   public posts: PostTL[] = [];
 
+  private pageNumber?: number = 1;
+  private itemsPerPage?: number = 10;
+  private userId: number;
+  public currentTLType: string = '';
+
   constructor(private accountService: AccountService,
     private postService: PostService,
     private spinner: NgxSpinnerService,
     private router: Router) {}
 
   ngOnInit(): void {
-    this.postService.updateTimeLine();
-    this.subscription = this.postService.currentPosts$.subscribe(response => this.posts = response)
+    this.userId = JSON.parse(localStorage.getItem('user'))['userId'];
+    this.selectHomePage();
+    this.subscription = this.postService.currentPosts$.subscribe(response => this.posts.push(...response))
   }
 
   public addPost(): void{
@@ -35,15 +41,31 @@ export class TimelineComponent implements OnInit {
       () => {
         this.post = {} as Post;
         document.getElementsByClassName("textarea")[0].innerHTML = "";
-        this.postService.updateTimeLine();
-
+        this.posts = [];
+        this.updateTimeLine();
       },
       (error: any) => console.error(error)
     );
   }
 
-  public updatePost(event: any){
+  public updatePost(event: any): void{
     this.post.body = event.target.innerText;
   }
 
+  private updateTimeLine(): void{
+    this.posts = [];
+    this.postService.updateTimeLine(this.userId, this.pageNumber, this.itemsPerPage);
+  }
+
+  public selectHomePage(): void{
+    this.postService.changeTLType('home');
+    this.currentTLType = localStorage.getItem('tlType');
+    this.updateTimeLine();
+  }
+
+  public selectFollowingPage(): void{
+    this.postService.changeTLType('following');
+    this.currentTLType = localStorage.getItem('tlType');
+    this.updateTimeLine();
+  }
 }

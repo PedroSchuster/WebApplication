@@ -1,0 +1,52 @@
+<div
+class="row mb-2 text-light border border-top-0 mx-0 sticky-top">
+
+<div class="upper-tab text-light  mx-0 py-2 d-flex align-items-center">
+  <a class="rounded-circle select-tl ms-2 p-1" routerLink="/user/profile/{{user?.userName}}">
+    <i class="fa-solid fa-arrow-left"></i>
+  </a>
+  <div class="ms-3">
+    <div>{{user?.firstName | titlecase}} {{user?.lastName | titlecase}}</div>
+    <div class="subinfo">@{{user?.userName}}</div>
+  </div>
+</div>
+
+
+
+<div class="col-6 px-0" >
+  <a
+    type="button"
+    class="btn btn-block p-4 w-100 h-100 border-0 select-tl noround shadow-none text-light"
+    [class.selected]="type == 'following'"
+    routerLink="/user/profile/{{user?.userName}}/following"
+
+  >
+  Seguindo
+</a>
+</div>
+<div class="col-6 px-0 ">
+  <a
+    type="button"
+    class="btn btn-block p-4 w-100 h-100 border-0 select-tl noround shadow-none text-light"
+    [class.selected]="type == 'followers'"
+    routerLink="/user/profile/{{user?.userName}}/followers"
+  >
+  Seguidores
+  </a>
+</div>
+
+</div>
+
+<div *ngIf="listSource?.length > 0 "  class="my-2">
+  <ng-container *ngFor="let item of listSource">
+    <app-profile-card [userName]="item?.userName">
+    </app-profile-card>
+
+  </ng-container>
+</div>
+
+<div *ngIf="listSource?.length <= 0 " class="my-2">
+  <div class=" bg-dark border text-light  p-4">
+    Nenhum usuário encontrado!
+  </div>
+</div>

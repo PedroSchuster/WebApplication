@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Text.Json.Nodes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using SocialMedia.API.Extensions;
 using SocialMedia.Application.Dtos;
 using SocialMedia.Domain.Contratos;
+using SocialMedia.Persistence.Models;
 
 namespace SocialMedia.API.Controllers
 {
@@ -18,12 +21,20 @@ namespace SocialMedia.API.Controllers
             _postService = postService;
         }
 
-        [HttpGet("getposts/{userId}")]
-        public async Task<IActionResult> GetPosts(int userId)
+        [HttpPost("getposts/{userId}")]
+        public async Task<IActionResult> GetPosts(int userId, [FromBody] JObject jsonObj)
         {
             try
             {
-                var posts = await _postService.GetAllPostsAsync(userId);
+                // Acessar os dados do objeto JSON
+                int pageNumber = (int)jsonObj["PageNumber"];
+                int pageSize = (int)jsonObj["PageSize"];
+
+                var pageParams = new PageParams();
+                pageParams.PageNumber = pageNumber;
+                pageParams.PageSize = pageSize;
+
+                var posts = await _postService.GetAllPostsAsync(userId, pageParams);
                 if (posts == null) return NoContent();
 
                 return Ok(posts);
@@ -33,6 +44,55 @@ namespace SocialMedia.API.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro: {e.Message}");
             }
         }
+
+        [HttpPost("getposts/following/{userId}")]
+        public async Task<IActionResult> GetPostsFollowingPage(int userId, [FromBody] JObject jsonObj)
+        {
+            try
+            {
+                // Acessar os dados do objeto JSON
+                int pageNumber = (int)jsonObj["PageNumber"];
+                int pageSize = (int)jsonObj["PageSize"];
+
+                var pageParams = new PageParams();
+                pageParams.PageNumber = pageNumber;
+                pageParams.PageSize = pageSize;
+
+                var posts = await _postService.GetPostsFollowingPageAsync(userId, pageParams);
+                if (posts == null) return NoContent();
+
+                return Ok(posts);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro: {e.Message}");
+            }
+        }
+
+        [HttpPost("getposts/home/{userId}")]
+        public async Task<IActionResult> GetPostsHomePage(int userId, [FromBody] JObject jsonObj)
+        {
+            try
+            {
+                // Acessar os dados do objeto JSON
+                int pageNumber = (int)jsonObj["PageNumber"];
+                int pageSize = (int)jsonObj["PageSize"];
+
+                var pageParams = new PageParams();
+                pageParams.PageNumber = pageNumber;
+                pageParams.PageSize = pageSize;
+
+                var posts = await _postService.GetPostsHomePageAsync(userId, pageParams);
+                if (posts == null) return NoContent();
+
+                return Ok(posts);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Erro: {e.Message}");
+            }
+        }
+
 
         [HttpGet("getpostbyid/{postId}")]
         public async Task<IActionResult> GetPostById(int postId)

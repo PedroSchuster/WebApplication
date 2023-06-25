@@ -19,7 +19,15 @@ namespace SocialMedia.Persistence
         public async Task<IEnumerable<User>> GetUsersAsync()
         {
             return await _context.Users.ToListAsync();
-        } 
+        }
+
+        public async Task<IEnumerable<User>> GetUsersByFilterAsync(string filter, string loggedUserName)
+        {
+            if (filter == string.Empty) return null;
+            return await _context.Users
+                .Where(x=>x.UserName != loggedUserName &&
+                 x.UserName.ToLower().StartsWith(filter.ToLower())).ToListAsync();
+        }
 
         public async Task<User> GetUserByIdAsync(int id)
         {

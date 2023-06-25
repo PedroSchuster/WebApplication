@@ -8,6 +8,8 @@ import { LoginComponent } from "./components/user/user/login/login.component";
 import { RegistrationComponent } from "./components/user/user/registration/registration.component";
 import { UserComponent } from "./components/user/user/user.component";
 import { ProfileComponent } from "./components/user/user/profile/profile.component";
+import { UserRelationsComponent } from "./components/user/user/profile/user-relations/user-relations.component";
+import { ProfilePageComponent } from "./components/user/user/profile/profile-page/profile-page.component";
 
 
 const routes: Routes = [
@@ -35,7 +37,8 @@ const routes: Routes = [
       {path: 'login', component: LoginComponent},
       {path: 'registration', component: RegistrationComponent},
       {path: 'profile/', redirectTo: 'home/timeline'},
-      {path: 'profile/:userName', component: ProfileComponent}
+      {path: 'profile/:userName', component: ProfilePageComponent},
+      {path: 'profile/:userName/:type', component: UserRelationsComponent}
     ]
   },
   {path: '**', redirectTo: 'home/timeline', pathMatch: 'full'}
@@ -44,6 +47,7 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule],
+
   })
 
 export class AppRoutingModule {}

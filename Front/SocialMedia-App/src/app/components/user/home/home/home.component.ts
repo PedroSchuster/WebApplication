@@ -25,29 +25,7 @@ export class HomeComponent {
     private router: Router) {}
 
   ngOnInit(): void {
-    this.postService.updateTimeLine();
-    this.subscription = this.postService.currentPosts$.subscribe(response => this.posts = response)
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
 
-  public addPost(): void{
-    let date = new Date();
-    this.post.date =  date.toLocaleDateString();
-    this.postService.addPost(this.post).subscribe(
-      () => {
-        this.post = {} as Post;
-        document.getElementsByClassName("textarea")[0].innerHTML = "";
-        this.postService.updateTimeLine();
-
-      },
-      (error: any) => console.error(error)
-    );
-  }
-
-  public updatePost(event: any){
-    this.post.body = event.target.innerText;
-  }
 }

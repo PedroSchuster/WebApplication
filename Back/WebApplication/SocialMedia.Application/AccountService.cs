@@ -108,6 +108,22 @@ namespace SocialMedia.Application
             }
         }
 
+        public async Task<IEnumerable<UserUpdateDto>> GetUsersByFilterAsync(string filter, string loggedUserName)
+        {
+            try
+            {
+                var users = await _userPersist.GetUsersByFilterAsync(filter, loggedUserName);
+                if (users == null || users.Count() == 0) return null;
+
+                return _mapper.Map<IEnumerable<UserUpdateDto>>(users);
+
+            } 
+            catch (Exception ex)
+            {
+                
+                throw new Exception("Erro ao tentar pegar usuários por filtro. Erro: " + ex.Message);
+            }
+        }
 
         public async Task<UserUpdateDto> UpdateAccount(UserUpdateDto userUpdateDto)
         {

@@ -1,6 +1,23 @@
-<div class=" w-100 searchbar mt-5  pt-5">
+<div class="w-100 searchbar mt-5 m-0 p-0 pt-5" >
   <div class="form-group">
     <span class="fa fa-search form-control-icon "></span>
-    <input type="text" class="form-control roundedc nowrap text-nowrap" placeholder="Pesquisar">
+    <input type="text" class="form-control roundedc nowrap text-nowrap" placeholder="Pesquisar usuário"
+  [(ngModel)]="searchTerm"
+  (ngModelChange)="filter($event)"
+>
+<div  *ngIf="usersFound?.length > 0"  class="p-0 m-0">
+  <ng-container *ngFor="let item of usersFound" >
+        <app-profile-card
+        [userName]="item.userName"
+        [isSearch]="true"
+        >
+        </app-profile-card>
+      </ng-container>
+    </div>
+    <div *ngIf="usersFound?.length <= 0 && searchTerm != '' && searchTerm != null ">
+      <div class="card card-transparent bg-dark border  border-top-0 text-light mx-3 p-4">
+        Nenhum usuário encontrado!
+      </div>
+    </div>
   </div>
 </div>

@@ -1,24 +1,23 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
-import { AbstractControlOptions, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, AbstractControlOptions, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ValidatorField } from '@app/helpers/ValidatorField';
-import { PostDetails } from '@app/models/identity/PostDetails';
 import { PostTL } from '@app/models/identity/PostTl';
 import { UserUpdate } from '@app/models/identity/UserUpdate';
 import { AccountService } from '@app/services/account.service';
 import { PostService } from '@app/services/post.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, Subscription, debounceTime, delay } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
-  providers: [PostService]
+  selector: 'app-profile-page',
+  templateUrl: './profile-page.component.html',
+  styleUrls: ['./profile-page.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfilePageComponent implements OnInit {
+
   form!: FormGroup;
 
   public charCount: number = 0;
@@ -56,10 +55,11 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.subscription = this.postService.currentPostsProfile$.subscribe(response => {this.posts.push(...response); console.log(response)},
-    //(error: any) => console.log(error))
-    this.validation();
+    this.subscription = this.postService.currentPostsProfile$.subscribe(response => {this.posts.push(...response); console.log(response)},
+    (error: any) => console.log(error))
     this.loadProfile();
+    this.validation();
+
   }
 
   private loadPosts(): void{
@@ -96,7 +96,6 @@ export class ProfileComponent implements OnInit {
       ).add(()=>this.spinner.hide());
     }
   }
-
   private validation(): void {
 
     const formOptions: AbstractControlOptions = {
@@ -220,6 +219,8 @@ export class ProfileComponent implements OnInit {
     this.router.navigateByUrl(`/user/profile/${this.userName}/following`)
 
   }
-
-
 }
+function debounceTime(arg0: number): import("rxjs").OperatorFunction<string, unknown> {
+  throw new Error('Function not implemented.');
+}
+

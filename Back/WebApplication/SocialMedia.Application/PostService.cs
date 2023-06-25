@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using SocialMedia.Application.Dtos;
 using SocialMedia.Domain.Contratos;
 using SocialMedia.Domain.Models;
 using SocialMedia.Persistence;
 using SocialMedia.Persistence.Contratos;
+using SocialMedia.Persistence.Models;
 
 namespace SocialMedia.Application
 {
@@ -115,14 +117,77 @@ namespace SocialMedia.Application
             }
         }
 
-        public async Task<IEnumerable<PostTLDto>> GetAllPostsAsync(int userId)
+        public async Task<PageList<PostTLDto>> GetAllPostsAsync(int userId, PageParams pageParams)
         {
             try
             {
-                var posts = await _postPersist.GetAllPostsAsync(userId);
+                var user = await _userPersist.GetUserByIdAsync(userId);
+                if (user == null) return null;
+
+                var posts = await _postPersist.GetAllPostsAsync(userId, pageParams);
                 if (posts == null) return null;
-                
-                return _mapper.Map<IEnumerable<PostTLDto>>(posts);
+
+                var result = _mapper.Map<PageList<PostTLDto>>(posts);
+                result.ToList().ForEach(x => x.UserIcon = user.ProfilePicURL);
+
+                result.CurrentPage = posts.CurrentPage;
+                result.TotalCount = posts.TotalCount;
+                result.PageSize = posts.PageSize;
+                result.TotalPages = posts.TotalPages;
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<PageList<PostTLDto>> GetPostsFollowingPageAsync(int userId, PageParams pageParams)
+        {
+            try
+            {
+                var user = await _userPersist.GetUserByIdAsync(userId);
+                if (user == null) return null;
+
+                var posts = await _postPersist.GetPostsFollowingPageAsync(userId, pageParams);
+                if (posts == null) return null;
+
+                var result = _mapper.Map<PageList<PostTLDto>>(posts);
+                result.ToList().ForEach(x => x.UserIcon = user.ProfilePicURL);
+
+                result.CurrentPage = posts.CurrentPage;
+                result.TotalCount = posts.TotalCount;
+                result.PageSize = posts.PageSize;
+                result.TotalPages = posts.TotalPages;
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<PageList<PostTLDto>> GetPostsHomePageAsync(int userId, PageParams pageParams)
+        {
+            try
+            {
+                var user = await _userPersist.GetUserByIdAsync(userId);
+                if (user == null) return null;
+
+                var posts = await _postPersist.GetPostsHomePageAsync(pageParams);
+                if (posts == null) return null;
+
+                var result = _mapper.Map<PageList<PostTLDto>>(posts);
+                result.ToList().ForEach(x => x.UserIcon = user.ProfilePicURL);
+
+                result.CurrentPage = posts.CurrentPage;
+                result.TotalCount = posts.TotalCount;
+                result.PageSize = posts.PageSize;
+                result.TotalPages = posts.TotalPages;
+
+                return result;
             }
             catch (Exception ex)
             {
@@ -172,6 +237,7 @@ namespace SocialMedia.Application
                 throw new Exception(ex.Message);
             }
         }
+
 
         public async Task<PostDetailsDto> GetPostByIdAsync(int postId)
         {

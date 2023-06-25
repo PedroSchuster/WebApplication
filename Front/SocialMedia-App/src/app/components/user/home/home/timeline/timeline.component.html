@@ -2,20 +2,24 @@
 id="tl-type"
 class="row mb-2 text-light border border-top-0 mx-0 sticky-top"
 >
-<div class="col-6 px-0">
+<div class="col-6 px-0" >
   <button
     type="button"
     class="btn btn-block p-4 w-100 h-100 border-0 select-tl noround shadow-none text-light"
+    (click)="selectHomePage()"
+    [class.selected]="currentTLType == 'home'"
   >
-    <span>Home</span>
-  </button>
+  Página Inicial
+</button>
 </div>
-<div class="col-6 px-0">
+<div class="col-6 px-0 " >
   <button
     type="button"
     class="btn btn-block p-4 w-100 h-100 border-0 select-tl noround shadow-none text-light"
+    (click)="selectFollowingPage()"
+    [class.selected]="currentTLType == 'following'"
   >
-    <span>Seguindo</span>
+  Seguindo
   </button>
 </div>
 </div>

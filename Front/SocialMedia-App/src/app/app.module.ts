@@ -43,8 +43,10 @@ import { UserComponent } from './components/user/user/user.component';
 import { LoginComponent } from './components/user/user/login/login.component';
 import { ProfileComponent } from './components/user/user/profile/profile.component';
 import { RegistrationComponent } from './components/user/user/registration/registration.component';
-import { CropService, ImageCropperModule } from 'ngx-image-cropper';
-
+import { ProfileCardComponent } from './components/user/user/profile/profile-card/profile-card.component';
+import { MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import { UserRelationsComponent } from './components/user/user/profile/user-relations/user-relations.component';
+import { ProfilePageComponent } from './components/user/user/profile/profile-page/profile-page.component';
 defineLocale('pt-br', ptBrLocale);
 
 @NgModule({
@@ -62,11 +64,15 @@ defineLocale('pt-br', ptBrLocale);
     PostDetailsComponent,
     ProfileComponent,
     PostTLComponent,
+    ProfileCardComponent,
+    UserRelationsComponent,
+    ProfilePageComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule      ,
+    FormsModule,
     AppRoutingModule,
+    MatDialogModule,
     RouterLinkActive,
     ReactiveFormsModule ,
     InfiniteScrollModule,
