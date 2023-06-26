@@ -7,20 +7,57 @@
   pointer-events: none;
 }
 
+
+
 .image-area{
-  height: 50px;
-  width: 50px;
+
   border-radius: 50%;
   overflow: hidden; /* Oculta qualquer conteúdo da imagem fora da div */
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.subinfo{
-  font-size:medium;
-  color: #a7a9ac;
+  @media (min-width: 0px) {
+    height: 40px;
+    width: 40px;
+    margin-top: 0rem;
+
+
+  }
+
+  @media (min-width: 421px) {
+    height: 70px;
+    width: 70px;
+    margin-top: 0rem;
+
+  }
+
 }
 
+.subinfo{
+  font-size:12px;
+  color: #a7a9ac;
+  @media (min-width: 0px) {
+    font-size: 8px;
+  }
+
+  @media (min-width: 421px) {
+    font-size: 12px;
+
+  }
+
+}
+
+.maininfo{
+  @media (min-width: 0px) {
+    font-size: 12px;
+  }
+
+  @media (min-width: 421px) {
+    font-size: 16px;
+  }
+
+
+}
 .user{
   background: #212529;
   transition: background-color 0.3s ease;

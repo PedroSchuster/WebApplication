@@ -16,6 +16,9 @@ namespace SocialMedia.Persistence.Contextos
 
         public DbSet<UserRelation> UserRelations { get; set; }
 
+        public DbSet<UserLikedPost> UserLikedPosts { get; set; }
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Data Source=DESKTOP-76E2JNA;Initial Catalog=SocialMediaDB;MultipleActiveResultSets=true;" +
                                         "TrustServerCertificate=True;Integrated Security=True;");
@@ -44,6 +47,12 @@ namespace SocialMedia.Persistence.Contextos
                 .HasOne(x => x.User)
                 .WithMany(x => x.UserRelations)
                 .HasForeignKey(x => x.UserId);
+
+            modelBuilder.Entity<Post>()
+                .HasOne(x=>x.User)
+                .WithMany(x=>x.Posts)
+                .HasForeignKey(x=>x.UserId);
+
         }
 
     }

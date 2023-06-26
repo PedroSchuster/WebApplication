@@ -1,16 +1,9 @@
-<div class="border  text-light  p-4 d-flex align-items-center user"
-      [class.search-card]="isSearch == true"
-      (click)="userDetails()"
->
-  <div class="image-area">
-    <img
-    src="{{profilePicURL}}"
-    alt="Card image cap"
-    class="image "
-  />
+<div class="border text-light p-3 d-flex align-items-center user" [class.search-card]="isSearch == true" (click)="userDetails()">
+  <div class="image-area text-nowrap">
+    <img src="{{profilePicURL}}" class="image nowrap">
   </div>
-  <div class="d-flex flex-column text-light m-0 ms-4 p-0 align-items-start">
-    <p class="m-0 p-0">{{user?.firstName | titlecase}} {{user?.lastName | titlecase}}</p>
-    <p class="m-0 p-0 subinfo">@{{user?.userName}}</p>
+  <div class="d-flex flex-column text-start text-light m-0 ms-2 p-0 text-align-start align-items-start  flex-grow-1">
+    <div class="m-0 p-0 maininfo w-100  h-auto">{{user?.firstName | titlecase}} {{user?.lastName | titlecase}}</div>
+    <div class="m-0 p-0 subinfo h-auto">@{{user?.userName}}</div>
   </div>
 </div>

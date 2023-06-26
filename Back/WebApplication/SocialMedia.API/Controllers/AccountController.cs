@@ -87,6 +87,7 @@ namespace SocialMedia.API.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("checkusername/{userName}")]
         public async Task<IActionResult> CheckUserName(string userName)
         {
@@ -121,6 +122,7 @@ namespace SocialMedia.API.Controllers
                         userName = user.UserName,
                         firstName = user.FirstName,
                         userId = user.Id,
+                        profilePicURL = user.ProfilePicURL,
                         token = _tokenService.CreateToken(user).Result
                     });
                 }
@@ -152,6 +154,7 @@ namespace SocialMedia.API.Controllers
                     userName = user.UserName,
                     firstName = user.FirstName,
                     userId = user.Id,
+                    profilePicURL = user.ProfilePicURL,
                     token = _tokenService.CreateToken(user).Result
                 });
             }
@@ -177,6 +180,7 @@ namespace SocialMedia.API.Controllers
                     userName = userReturn.UserName,
                     firstName = userReturn.FirstName,
                     userId = userReturn.Id,
+                    profilePicURL = userReturn.ProfilePicURL,
                     token = _tokenService.CreateToken(userReturn).Result
                 });
             }

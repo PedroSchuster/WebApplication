@@ -8,6 +8,7 @@ using AutoMapper;
 using Microsoft.Extensions.Logging;
 using SocialMedia.Application.Dtos;
 using SocialMedia.Domain.Contratos;
+using SocialMedia.Domain.Identity;
 using SocialMedia.Domain.Models;
 using SocialMedia.Persistence;
 using SocialMedia.Persistence.Contratos;
@@ -35,7 +36,6 @@ namespace SocialMedia.Application
             {
                 var post = _mapper.Map<Post>(model);
                 post.UserId = userId; // ver se precisa
-                post.UserName = userName;
 
                 _postPersist.Add<Post>(post);
 
@@ -90,7 +90,7 @@ namespace SocialMedia.Application
             }
         }
 
-        public async Task<PostDto> UpdatePost(int userId, int postId, PostDto model)
+        public async Task<PostDetailsDto> UpdatePost(int userId, int postId, PostDetailsDto model)
         {
             try
             {
@@ -107,7 +107,7 @@ namespace SocialMedia.Application
                 if (await _postPersist.SaveChangesAsync())
                 {
                     var resultado = await _postPersist.GetPostByIdAsync(post.Id); // verificaçao se foi criado msm
-                    return _mapper.Map<PostDto>(resultado);
+                    return _mapper.Map<PostDetailsDto>(resultado);
                 }
                 return null;
             }
@@ -117,18 +117,18 @@ namespace SocialMedia.Application
             }
         }
 
-        public async Task<PageList<PostTLDto>> GetAllPostsAsync(int userId, PageParams pageParams)
+        public async Task<PageList<PostTLDto>> GetAllPostsAsync(string userName, PageParams pageParams)
         {
             try
             {
-                var user = await _userPersist.GetUserByIdAsync(userId);
+                var user = await _userPersist.GetUserByUserNameAsync(userName);
                 if (user == null) return null;
 
-                var posts = await _postPersist.GetAllPostsAsync(userId, pageParams);
+                var posts = await _postPersist.GetAllPostsAsync(user.Id, pageParams); 
                 if (posts == null) return null;
 
                 var result = _mapper.Map<PageList<PostTLDto>>(posts);
-                result.ToList().ForEach(x => x.UserIcon = user.ProfilePicURL);
+                result.ToList().ForEach(x => x.IsLiked = _postPersist.LikePost(user.Id, x.Id.Value).Result == null ? false : true);
 
                 result.CurrentPage = posts.CurrentPage;
                 result.TotalCount = posts.TotalCount;
@@ -154,7 +154,9 @@ namespace SocialMedia.Application
                 if (posts == null) return null;
 
                 var result = _mapper.Map<PageList<PostTLDto>>(posts);
-                result.ToList().ForEach(x => x.UserIcon = user.ProfilePicURL);
+
+                result.ToList().ForEach(x => x.IsLiked = _postPersist.LikePost(user.Id, x.Id.Value).Result == null ? false : true);
+
 
                 result.CurrentPage = posts.CurrentPage;
                 result.TotalCount = posts.TotalCount;
@@ -179,9 +181,9 @@ namespace SocialMedia.Application
                 var posts = await _postPersist.GetPostsHomePageAsync(pageParams);
                 if (posts == null) return null;
 
-                var result = _mapper.Map<PageList<PostTLDto>>(posts);
-                result.ToList().ForEach(x => x.UserIcon = user.ProfilePicURL);
 
+                var result = _mapper.Map<PageList<PostTLDto>>(posts);
+                result.ToList().ForEach(x => x.IsLiked = _postPersist.LikePost(user.Id, x.Id.Value).Result == null ? false : true);
                 result.CurrentPage = posts.CurrentPage;
                 result.TotalCount = posts.TotalCount;
                 result.PageSize = posts.PageSize;
@@ -218,6 +220,7 @@ namespace SocialMedia.Application
             }
         }
 
+        //tirar
         public async Task<IEnumerable<PostDetailsDto>> GetAllCommentsAsync(int postId)
         {
             try
@@ -229,7 +232,7 @@ namespace SocialMedia.Application
                 {
                     comment.Comment = await _postPersist.GetPostByIdAsync(comment.CommentId);
                 }
-                List<Post> result = comments.Select(x => x.Comment).ToList();
+                List<Post> result = comments.Select(x => x.Comment).OrderByDescending(x=>x.Date).ToList();
                 return _mapper.Map<List<PostDetailsDto>>(result);
             }
             catch (Exception ex)
@@ -239,7 +242,7 @@ namespace SocialMedia.Application
         }
 
 
-        public async Task<PostDetailsDto> GetPostByIdAsync(int postId)
+        public async Task<PostDetailsDto> GetPostByIdAsync(int userId, int postId)
         {
             try
             {
@@ -247,8 +250,29 @@ namespace SocialMedia.Application
                 if (post == null) return null;
 
                 var postMapped =  _mapper.Map<PostDetailsDto>(post);
-                postMapped.Comments = await GetAllCommentsAsync(postId);
+                postMapped.IsLiked = await _postPersist.LikePost(userId, postId) == null? false : true;
+
+                var comments = post.PostComments;
+                if (comments != null && comments.Count() > 0)
+                {
+                    foreach (var comment in comments)
+                    {
+                        comment.Comment = await _postPersist.GetPostByIdAsync(comment.CommentId);
+                    }
+
+                }
+
+                List<Post> result = comments.Select(x => x.Comment).OrderByDescending(x => x.Date).ToList();
+
+                postMapped.Comments = _mapper.Map<List<PostDetailsDto>>(result);
+                postMapped.Comments.ToList().ForEach(x => x.IsLiked = _postPersist.LikePost(userId, x.Id.Value).Result == null ? false : true);
+
+
+                postMapped.TotalComments = result.Count;
+
                 postMapped.Parents = await GetAllParentsAsync(postId);
+                postMapped.Parents.ToList().ForEach(x => x.IsLiked = _postPersist.LikePost(userId, x.Id.Value).Result == null ? false : true);
+
                 return postMapped;
             }
             catch (Exception ex)
@@ -257,5 +281,44 @@ namespace SocialMedia.Application
             }
         }
 
+        public async Task<bool> LikePostAsync(int userId, int postId)
+        {
+            try
+            {
+                var userLikedPost = await _postPersist.LikePost(userId, postId);
+                if (userLikedPost != null) return false;
+
+                var likePost = new UserLikedPost { UserId = userId, PostId = postId };
+                _postPersist.Add<UserLikedPost>(likePost);
+
+                var post = await _postPersist.GetPostByIdAsync(postId);
+                post.TotalLikes++;
+                _postPersist.Update<Post>(post);
+
+                return await _postPersist.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task<bool> RemoveLikePostAsync(int userId, int postId)
+        {
+            try
+            {
+                var userLikedPost = await _postPersist.LikePost(userId, postId);
+                if (userLikedPost == null) return false;
+
+                _postPersist.Delete<UserLikedPost>(userLikedPost);
+                var post = await _postPersist.GetPostByIdAsync(postId);
+                post.TotalLikes--;
+                _postPersist.Update<Post>(post);
+                return await _postPersist.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

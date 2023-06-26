@@ -261,9 +261,6 @@ namespace SocialMedia.Persistence.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
@@ -292,6 +289,25 @@ namespace SocialMedia.Persistence.Migrations
                     b.HasIndex("PostId");
 
                     b.ToTable("PostComments");
+                });
+
+            modelBuilder.Entity("SocialMedia.Domain.Models.UserLikedPost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserLikedPosts");
                 });
 
             modelBuilder.Entity("SocialMedia.Domain.Models.UserRelation", b =>
@@ -370,11 +386,13 @@ namespace SocialMedia.Persistence.Migrations
 
             modelBuilder.Entity("SocialMedia.Domain.Models.Post", b =>
                 {
-                    b.HasOne("SocialMedia.Domain.Identity.User", null)
+                    b.HasOne("SocialMedia.Domain.Identity.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SocialMedia.Domain.Models.PostComment", b =>

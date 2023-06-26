@@ -12,6 +12,7 @@ ul {
 }
 
 .roundedc{
+  width: 100%;
   transition: background-color 0.3s ease;
   border-radius: 50rem;
   cursor: pointer;
@@ -23,4 +24,13 @@ ul {
 
 .d-xl-block {
   padding-left: 3rem;
+}
+
+.mobile-icon{
+  @media (min-width: 0px) {
+    font-size: 1.3em;
+  }
+  @media (min-width: 430px) {
+    font-size: 1.8em;
+  }
 }

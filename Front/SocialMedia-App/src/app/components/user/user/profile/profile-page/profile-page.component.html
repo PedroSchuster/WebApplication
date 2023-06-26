@@ -1,11 +1,11 @@
 <div class="container-fluid row mx-0 px-0">
-  <div class="text-light my-4 col-lg-12 col-md-10 col-sm-12">
+  <div class="text-light my-4  col-12">
     <div class=" p-3 border border-light">
       <div class="col-12 pt-1 h-100" *ngIf="!editMode">
-        <div class="row bg-dark text-light shadow-0 border-0 m-0 mb-3 ">
-          <div class="mt-4 col-1 me-5">
+        <div class="row bg-dark text-light shadow-0 border-0 m-0  ">
+          <div class="p-0 ps-sm-3  col-md-1 ps-lg-0 mt-4 col-lg-1 col-xl-1 me-xl-5 col-sm-2 col-1 ">
             <input type="file" #file (change)="onFileChange($event)" class="form-control is-invalid" placeholder="" style="display: none">
-            <div class="image-area" *ngIf="userName == loggedUserName">
+            <div class="image-area " *ngIf="userName == loggedUserName">
               <img
                   src="{{profilePicURL}}"
                   (click)="file.click()"
@@ -21,55 +21,62 @@
                 />
               </div>
           </div>
-          <div class="col-3 mt-5">
-            <div class="h5 text-bold mb-0">
-              {{ user.firstName | titlecase }} {{ user.lastName | titlecase }}
-            </div>
-            <div class="subinfo mt-1">@{{ user.userName }}</div>
-          </div>
-          <div class="col-3 mt-5">
-            <div class="d-inline-block">
-              <div class="h5 text-bold mb-0">
-                <a (click)="openFollowing()">Seguindo</a>
+            <div class="col-xxl-7 col-lg-8
+            col-md-9 ms-md-4 ms-xl-4 mt-5 me-lg-2 ms-lg-5 col-sm-7 col-7 ms-4
+            p-0 ps-lg-2 m-0">
+              <div class=" user text-nowrap pt-0 text-bold mb-0">
+                {{ user.firstName | titlecase }} {{ user.lastName | titlecase }}
+                <div class="subinfo mt-0 p-0">@{{ user.userName }}</div>
               </div>
-              <div class="subinfo mt-1">{{user.followingCount}}</div>
             </div>
-          </div>
-          <div class="col-3 mt-5">
-            <div class="h5 text-bold mb-0">
-              <a (click)="openFollowers()">Seguidores</a>
-            </div>
-            <div class="subinfo mt-1">{{user.followersCount}}</div>
-          </div>
-          <div class="col-1 mt-5 ">
+          <div class=" ms-0 col-1 ms-xl-3 mt-5">
             <button
               *ngIf="userName == loggedUserName"
-              class="btn btn-primary"
+              class="btn btn-primary upper-button"
               (click)="toggleEditMode()"
             >
               Editar
             </button>
             <button
               *ngIf="userName != loggedUserName && followMode"
-              class="btn btn-primary"
+              class="btn btn-primary upper-button-follow"
               (click) = "followUser()"
             >
               Seguir
             </button>
             <button
             *ngIf="userName != loggedUserName && !followMode"
-            class="btn btn-primary"
+            class="btn btn-primary upper-button-following"
             (click) = "unfollowUser()"
           >
             Seguindo
           </button>
           </div>
         </div>
-        <div>
-          <div class="bio">
+        <div class="row bg-dark text-light shadow-0 border-0 m-0 mb-5  ">
+
+          <div class=" col-xxl-3 col-xl-4 mt-3 col-6">
+            <div class="d-inline-block">
+              <div class="h5 text-bold mb-0 count-text">
+                <a (click)="openFollowing()">Seguindo</a>
+              </div>
+              <div class="subinfo mt-1">{{user.followingCount}}</div>
+            </div>
+          </div>
+
+          <div class=" col-xxl-3 col-xl-4 mt-3 col-6">
+            <div class="h5 text-bold mb-0 count-text">
+              <a (click)="openFollowers()">Seguidores</a>
+            </div>
+            <div class="subinfo mt-1">{{user.followersCount}}</div>
+          </div>
+        </div>
+
+        <div class="m-0 p-0">
+          <div class="bio bio-text">
           {{user.bio}}
           </div>
-          <div class="d-flex justify-content-between mt-4">
+          <div class="d-flex justify-content-between mt-2">
             <div class="subinfo">Telefone: {{user.phoneNumber}}</div>
             <div class="subinfo ms-auto">Email: {{user.email}}</div>
           </div>
@@ -77,12 +84,8 @@
       </div>
       <form *ngIf="editMode" [formGroup]="form" (ngSubmit)="saveProfile()">
         <div class="col-12 pt-1 h-100 text-light ">
-          <div class="row bg-dark shadow-0 border-0 mb-3 ">
-            <div class="mt-4 col-lg-1">
-
-
-            </div>
-            <div class="col-2 mt-5 ms-lg-5 form-group">
+          <div class="row bg-dark shadow-0 border-0 ">
+            <div class="col-xxl-12  mt-5 form-group ">
               <label>Nome de usuário</label>
               <input
               (ngModelChange)="checkUserName($event)"
@@ -94,8 +97,8 @@
                 }"
               />
               <div
-                *ngIf="f.userName.errors && f.userName.touched"
-                class="invalid-feedback text-light"
+                *ngIf="f.userName.errors "
+                class="invalid-feedback text-error"
               >
                 <div *ngIf="f.userName.errors.required">
                   Nome de usuário é obrigatório
@@ -103,11 +106,14 @@
                 <div *ngIf="f.userName.errors.invalidUserName">
                   Nome de usuário já está sendo utilizado por outra pessoa
                 </div>
+                <div *ngIf="f.userName.errors.maxlength">
+                  Máximo de 10 caracteres
+                </div>
               </div>
             </div>
           </div>
-          <div class="row bg-dark  shadow-0 border-0 mb-3">
-            <div class="col-3 mt-5 form-group">
+          <div class="row bg-dark shadow-0 border-0 ">
+            <div class="col-xxl-6  mt-5 form-group">
               <label>Nome</label>
               <input
                 type="text"
@@ -119,14 +125,17 @@
               />
               <div
                 *ngIf="f.firstName.errors && f.firstName.touched"
-                class="invalid-feedback text-light"
+                class="invalid-feedback text-error"
               >
                 <div *ngIf="f.firstName.errors.required">
                   Nome é obrigatório
                 </div>
+                <div *ngIf="f.firstName.errors.maxlength">
+                  Máximo de 10 caracteres
+                </div>
               </div>
             </div>
-            <div class="col-3 mt-5 form-group">
+            <div class="col-xxl-6  mt-5 form-group">
               <label>Sobrenome</label>
               <input
                 type="text"
@@ -138,14 +147,19 @@
               />
               <div
                 *ngIf="f.lastName.errors && f.lastName.touched"
-                class="invalid-feedback text-light"
+                class="invalid-feedback text-error"
               >
                 <div *ngIf="f.lastName.errors.required">
                   Sobrenome é obrigatório
                 </div>
+                <div *ngIf="f.lastName.errors.maxlength">
+                  Máximo de 15 caracteres
+                </div>
               </div>
             </div>
-            <div class="col-3 mt-5 form-group">
+          </div>
+          <div class="row bg-dark  shadow-0 border-0 ">
+            <div class="col-xxl-6  mt-5 form-group">
               <label>Telefone</label>
               <input
                 type="text"
@@ -157,14 +171,14 @@
               />
               <div
                 *ngIf="f.phoneNumber.errors && f.phoneNumber.touched"
-                class="invalid-feedback text-light"
+                class="invalid-feedback text-error"
               >
                 <div *ngIf="f.phoneNumber.errors.pattern">
                   Digite um número válido
                 </div>
               </div>
             </div>
-            <div class="col-3 mt-5 form-group">
+            <div class="col-xxl-6  mt-5 form-group">
               <label>Email</label>
               <input
                 type="text"
@@ -176,19 +190,20 @@
               />
               <div
                 *ngIf="f.email.errors && f.email.touched"
-                class="invalid-feedback text-light"
+                class="invalid-feedback text-error"
               >
                 <div *ngIf="f.email.errors.email">
                   Digite um e-mail válido
                 </div>
               </div>
             </div>
-        </div>
-          <div class="row bg-dark  shadow-0 border-0 mb-3">
+
           </div>
-          <div class="row bg-dark shadow-0  mb-3">
-            <div class="col-12 mt-5 form-group textarea-wrapper  input-group border bg-dark border-light">
-                <textarea class="bg-dark border-0 pt-3 py-1 text-light"
+          <div class="row bg-dark  shadow-0 border-0 ">
+          </div>
+          <div class="row bg-dark shadow-0 m-0 ">
+            <div class="col-12 mt-5 form-group textarea-wrapper  input-group border  bg-dark border-light">
+                <textarea class="bg-dark border-0 pt-3 py-1 text-light "
                 pInputTextArea (ngModelChange)="valueChange($event)" maxlength="{{maxChar}}"
                 placeholder="Bio"
                 type="text"
@@ -203,12 +218,12 @@
           </div>
           <div class="row bg-dark shadow-0 border-0">
             <div class="col-12 p-0 m-0 text-center">
-              <hr>
+              <hr class="mx-3">
               <h3 class="mt-5">Mudar Senha</h3>
             </div>
           </div>
-          <div class="row bg-dark shadow-0 border-0 mb-3  justify-content-center">
-            <div class="col-4 mt-5 form-group">
+          <div class="row bg-dark shadow-0 border-0 ">
+            <div class="col-xxl-6 mt-5 form-group">
               <label>Senha</label>
               <input
                 type="password"
@@ -220,14 +235,17 @@
               />
               <div
                 *ngIf="f.password.errors && f.password.touched"
-                class="invalid-feedback text-light"
+                class="invalid-feedback text-error"
               >
                 <div *ngIf="f.password.errors.minlength">
-                  Senha precisa ter no mínimo 4 caracteres
+                  Senha precisa ter no mínimo 6 caracteres
+                </div>
+                <div *ngIf="f.password.errors.maxlength">
+                  Máximo de 30 caracteres
                 </div>
               </div>
             </div>
-            <div class="col-4 mt-5 form-group">
+            <div class="col-xxl-6 mt-5 form-group">
               <label>Confirme a senha</label>
               <input
                 type="password"
@@ -240,7 +258,7 @@
               />
               <div
                 *ngIf="f.confirmPassword.errors && f.confirmPassword.touched"
-                class="invalid-feedback text-light"
+                class="invalid-feedback text-error"
               >
                 <div *ngIf="f.confirmPassword.errors.mustMatch">
                   Senhas precisam ser iguais!
@@ -248,8 +266,8 @@
               </div>
             </div>
           </div>
-          <div class="row bg-dark shadow-0 border-0 mb-3 ">
-            <div class="col-1 mt-5 pt-4 ">
+          <div class="row bg-dark shadow-0 border-0  d-flex justify-content-between">
+            <div class="col-6 mt-5 pt-4 p-0 ps-3">
               <button
                 class="btn btn-danger "
                 (click)="toggleEditMode()"
@@ -257,7 +275,7 @@
                 Cancelar
               </button>
             </div>
-            <div class="col-1 mt-5 pt-4 ms-auto">
+            <div class="col-6 mt-5 p-0 pt-4 text-end pe-3">
               <button
                 class="btn btn-success "
                 [disabled]="!form.valid"
@@ -273,10 +291,7 @@
     <div class="m-3" *ngIf="!editMode">
       <ng-container  *ngFor="let item of posts">
         <app-post-tl
-          [body]="item.body"
-          [userName]="item.userName"
-          [date]="item.date"
-          [id]="item.id"
+          [post]="item"
         >
         </app-post-tl>
 

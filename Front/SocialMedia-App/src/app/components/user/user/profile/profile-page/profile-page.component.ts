@@ -9,7 +9,7 @@ import { AccountService } from '@app/services/account.service';
 import { PostService } from '@app/services/post.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-profile-page',
@@ -55,8 +55,9 @@ export class ProfilePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subscription = this.postService.currentPostsProfile$.subscribe(response => {this.posts.push(...response); console.log(response)},
-    (error: any) => console.log(error))
+    console.log('aaaa')
+    this.subscription = this.postService.currentPostsProfile$.subscribe(response => this.posts.push(...response),
+    (error: any) => console.log(error));
     this.loadProfile();
     this.validation();
 
@@ -69,18 +70,23 @@ export class ProfilePageComponent implements OnInit {
 
   private updateTimeLine(): void{
     this.posts = [];
-    this.postService.updateTimeLine(this.user.id, this.pageNumber, this.itemsPerPage);
+    this.postService.setPageNumber( this.pageNumber.toString())
+    this.postService.changeProfileUserName(this.user.userName)
+    this.postService.updateTimeLine(this.user.id, this.itemsPerPage);
   }
 
   private loadProfile(): void{
     this.userName = this.activeRouter.snapshot.paramMap.get('userName');
+    console.log(this.userName)
     this.loggedUserName = JSON.parse(localStorage.getItem('user'))['userName'];
     this.profilePicURL = 'assets/images/empty-profile.png';
-    this.spinner.show();
     if (this.userName != null && this.userName != ''){
+      this.spinner.show();
       this.accountService.getUserByUserName(this.userName).subscribe(
         (response: UserUpdate) => {
           this.user = response;
+          console.log(response)
+          this.charCount = this.user.bio != null? this.user.bio.length : 0;
           this.loadPosts();
           if (response.followers.some(x=>x.userName == this.loggedUserName)){
             this.followMode = false;
@@ -103,13 +109,13 @@ export class ProfilePageComponent implements OnInit {
     };
     this.form = this.fb.group({
       id: [''],
-      userName: ['', Validators.required],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      userName: ['', [Validators.required, Validators.maxLength(10)]],
+      firstName: ['', [Validators.required, Validators.maxLength(10)]],
+      lastName: ['', [Validators.required, Validators.maxLength(15)]],
+      password: ['', [Validators.minLength(6), Validators.maxLength(30)]],
       email: ['', [Validators.email]],
       phoneNumber: ['', Validators.pattern('[- +()0-9]+')],
       bio: ['', Validators.maxLength(this.maxChar)],
-      password: ['', [Validators.minLength(4)]],
       confirmPassword: ['', ]
     }, formOptions);
   }
@@ -117,22 +123,31 @@ export class ProfilePageComponent implements OnInit {
   public valueChange(event:any):void{
     this.charCount = event? event.length : 0;
   }
-  public checkUserName(event: any): void{
+  public checkUserName(event: any): void {
     if (event == null || event == undefined || event == '') return;
-    if (this.userNameChanged.observers.length === 0){
+    if (this.userNameChanged.observers.length === 0) {
       this.userNameChanged.pipe(debounceTime(500)).subscribe(
         (value: string) => {
           this.accountService.checkUserName(value).subscribe(
             () => {
-                this.f['userName'].setErrors(null);
+              const errors = this.f['userName'].errors;
+              if (errors) {
+                delete errors.invalidUserName;
+                this.f['userName'].setErrors(Object.keys(errors).length > 0 ? errors : null);
+              }
             },
-            () => this.f['userName'].setErrors({ invalidUserName: true})
+            () => {
+              const errors = this.f['userName'].errors || {};
+              errors.invalidUserName = true;
+              this.f['userName'].setErrors(errors);
+            }
           );
         }
       );
     }
     this.userNameChanged.next(event);
   }
+
 
   public onFileChange(ev: any): void{
     const reader = new FileReader();
@@ -168,9 +183,10 @@ export class ProfilePageComponent implements OnInit {
           this.toggleEditMode();
           this.loggedUserName = JSON.parse(localStorage.getItem('user'))['userName'];
           if (this.loggedUserName != this.userName){
-            this.router.navigateByUrl('/user/profile/' + this.loggedUserName)
-          } else{
-
+            this.router.navigateByUrl('/user/profile/' + this.loggedUserName).then(() => {
+              this.loadProfile();
+            });
+          } else {
             this.loadProfile();
           }
         },
@@ -219,8 +235,5 @@ export class ProfilePageComponent implements OnInit {
     this.router.navigateByUrl(`/user/profile/${this.userName}/following`)
 
   }
-}
-function debounceTime(arg0: number): import("rxjs").OperatorFunction<string, unknown> {
-  throw new Error('Function not implemented.');
 }
 

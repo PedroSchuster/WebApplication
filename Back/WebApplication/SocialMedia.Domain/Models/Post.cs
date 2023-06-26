@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SocialMedia.Domain.Identity;
 
 namespace SocialMedia.Domain.Models
 {
@@ -15,7 +16,7 @@ namespace SocialMedia.Domain.Models
 
         public int UserId { get; set; }
 
-        public string? UserName { get; set; }
+        public User? User { get; set; }
 
         public DateTime? Date { get; set; }
 

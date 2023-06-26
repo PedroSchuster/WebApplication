@@ -40,10 +40,7 @@ class="row mb-2 text-light border border-top-0 mx-0 sticky-top"
 </div>
 <div *ngFor="let item of posts">
 <app-post-tl
-  [body]="item.body"
-  [userName]="item.userName"
-  [date]="item.date"
-  [id]="item.id"
+  [post]="item"
 >
 </app-post-tl>
 </div>

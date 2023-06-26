@@ -19,5 +19,7 @@ namespace SocialMedia.Persistence.Contratos
         Task<Post> GetPostByIdAsync(int id);
 
         Task<IEnumerable<PostComment>> GetAllCommentsByPostIdAsync(int postId);
+
+        Task<UserLikedPost> LikePost(int userId, int postId);
     }
 }

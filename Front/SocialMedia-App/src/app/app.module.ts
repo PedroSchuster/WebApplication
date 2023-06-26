@@ -66,7 +66,7 @@ defineLocale('pt-br', ptBrLocale);
     PostTLComponent,
     ProfileCardComponent,
     UserRelationsComponent,
-    ProfilePageComponent
+    ProfilePageComponent,
   ],
   imports: [
     BrowserModule,

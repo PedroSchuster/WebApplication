@@ -15,13 +15,13 @@ namespace SocialMedia.Application.Dtos
 
         public int? RootId { get; set; }
 
-        public string? UserIcon { get; set; }
-
-        public string? UserName { get; set; }
+        public UserUpdateDto User { get; set; }
 
         public string? Date { get; set; }
 
         public string? Body { get; set; }
+
+        public bool IsLiked { get; set; }
 
         public int TotalLikes { get; set; } = 0;
 

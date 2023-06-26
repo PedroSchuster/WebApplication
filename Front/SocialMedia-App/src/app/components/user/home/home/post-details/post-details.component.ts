@@ -16,8 +16,12 @@ export class PostDetailsComponent implements OnInit {
   postId: number;
   userId: number;
   comments: PostTL[] = [];
-  comment = {} as Post;
+  comment = {} as PostDetails;
   parensPostTL: PostTL[] = [];
+  imgURL: string;
+
+  public isLiked: boolean = false;
+  public totalLikes: number;
 
   constructor(private activedRoute: ActivatedRoute,
               private router: Router,
@@ -30,22 +34,21 @@ export class PostDetailsComponent implements OnInit {
 
   private loadPost():void{
     this.spinner.show();
-    this.userId = +this.activedRoute.snapshot.paramMap.get('userId');
     this.postId = +this.activedRoute.snapshot.paramMap.get('id');
     this.postService.getPostById(this.postId).subscribe(
       (response: PostDetails) => {
         this.post = response
-        this.loadComments();
-      },
-      (error: any) => console.error(error)
-    ).add(()=>this.spinner.hide());
-  }
+        console.log(this.post)
+        this.comments = this.post.comments
+        this.isLiked = this.post.isLiked;
+        this.totalLikes = this.post.totalLikes;
+        this.postService.changeTLType('post-detail');
+        if (this.post.user?.profilePicURL != null && this.post.user?.profilePicURL != ''){
+          this.imgURL = 'https://localhost:7209/Resources/Images/' + this.post.user.profilePicURL;
+        } else{
+          this.imgURL = 'assets/images/empty-profile.png';
+        }
 
-  private loadComments(): void{
-    this.spinner.show();
-    this.postService.getCommentsByPostId(this.postId).subscribe(
-      (response: PostDetails[]) => {
-        this.comments = response
       },
       (error: any) => console.error(error)
     ).add(()=>this.spinner.hide());
@@ -53,12 +56,14 @@ export class PostDetailsComponent implements OnInit {
 
   public addComment(): void{
     let date = new Date();
-    this.comment.date =  date.toLocaleDateString();
+    this.comment.date =  date.toLocaleString();
     this.comment.rootId = this.postId;
+    this.post.totalComments += 1;
     this.postService.addPost(this.comment).subscribe(
       () => {
-        this.comment = {} as Post;
+        this.comment = {} as PostDetails;
         document.getElementsByClassName("textarea")[0].innerHTML = "";
+        this.postService.updatePost(this.postId, this.post).subscribe();
         this.loadPost();
       },
       (error: any) => console.error(error)
@@ -73,8 +78,30 @@ export class PostDetailsComponent implements OnInit {
     this.redirectTo(`home/post/${id}`);
   }
 
-  redirectTo(uri: string) {
+  public redirectTo(uri: string) {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
     this.router.navigate([uri]));
  }
+
+ public like(event: any): void{
+  event.stopPropagation();
+  if (!this.isLiked){
+    this.postService.like(this.post.id).subscribe(
+      () => {
+        this.isLiked = true
+        this.totalLikes ++;
+      },
+      (error: any) => console.error(error)
+    )
+  } else{
+    this.postService.removelike(this.post.id).subscribe(
+      () => {
+        this.isLiked = false
+        this.totalLikes --;
+      },
+      (error: any) => console.error(error)
+    )
+  }
+}
+
 }

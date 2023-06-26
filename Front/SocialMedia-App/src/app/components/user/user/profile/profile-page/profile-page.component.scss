@@ -1,6 +1,29 @@
 .subinfo{
   font-size:medium;
   color: #a7a9ac;
+  font-weight: normal !important;
+  @media (min-width: 0px) {
+    font-size: 10px;
+  }
+  @media (min-width: 281px) {
+    font-size: 12px;
+  }
+
+  // Tamanho da imagem para telas small (sm)
+  @media (min-width: 576px) {
+    font-size: small;
+
+  }
+
+  // Tamanho da imagem para telas medium (md)
+  @media (min-width: 774) {
+    font-size: small;
+
+  }
+  @media (min-width: 992px) {
+    font-size: medium;
+
+  }
 }
 
 textarea:focus{
@@ -45,6 +68,51 @@ color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (min-width: 0px) {
+    height: 30px;
+    width: 30px;
+    margin-top: 1.5rem;
+
+  }
+
+  @media (min-width: 281px) {
+    height: 35px;
+    width: 35px;
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 360px) {
+    height: 40px;
+    width: 40px;
+    margin-top: 1.5rem;
+
+  }
+  // Tamanho da imagem para telas small (sm)
+  @media (min-width: 511px) {
+    height: 50px;
+    width: 50px;
+    margin-top: 1rem;
+  }
+
+  // Tamanho da imagem para telas medium (md)
+  @media (min-width: 774) {
+    height: 75px;
+    width: 75px;
+    margin-top: 1rem;
+  }
+  @media (min-width: 992px) {
+    height: 80px;
+    width: 80px;
+    margin-top: 0.5rem;
+
+  }
+
+  // Tamanho da imagem para telas extra large (xl)
+  @media (min-width: 1200px) {
+    height: 100px;
+    width: 100px;
+  }
+
 }
 
 .image-area:hover{
@@ -59,8 +127,275 @@ color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (min-width: 0px) {
+    height: 30px;
+    width: 30px;
+    margin-top: 1.5rem;
+
+  }
+
+  @media (min-width: 281px) {
+    height: 35px;
+    width: 35px;
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 360px) {
+    height: 40px;
+    width: 40px;
+    margin-top: 1.5rem;
+
+  }
+  // Tamanho da imagem para telas small (sm)
+  @media (min-width: 511px) {
+    height: 50px;
+    width: 50px;
+    margin-top: 1rem;
+  }
+
+  // Tamanho da imagem para telas medium (md)
+  @media (min-width: 774) {
+    height: 75px;
+    width: 75px;
+    margin-top: 1rem;
+  }
+  @media (min-width: 992px) {
+    height: 80px;
+    width: 80px;
+    margin-top: 0.5rem;
+
+  }
+
+  // Tamanho da imagem para telas extra large (xl)
+  @media (min-width: 1200px) {
+    height: 100px;
+    width: 100px;
+  }
 }
 
+.user{
+  font-size: large;
+  font-weight: bold;
+
+  @media (min-width: 0px) {
+    font-size: 10px;
+  }
+
+  @media (min-width: 360px) {
+    font-size: 12px;
+  }
+
+  // Tamanho da imagem para telas small (sm)
+  @media (min-width: 511px) {
+    font-size: small;
+  }
+
+  // Tamanho da imagem para telas medium (md)
+  @media (min-width: 770) {
+    font-size: small;
+
+  }
+  @media (min-width: 992px) {
+    font-size: 15px;
+
+  }
+
+  // Tamanho da imagem para telas extra large (xl)
+  @media (min-width: 1200px) {
+    font-size: large;
+
+  }
+}
+
+.count-text{
+  font-size: large;
+
+  @media (min-width: 0px) {
+    font-size: 10px;
+  }
+
+  @media (min-width: 360px) {
+    font-size: 12px;
+  }
+
+  // Tamanho da imagem para telas small (sm)
+  @media (min-width: 511px) {
+    font-size: small;
+  }
+
+  // Tamanho da imagem para telas medium (md)
+  @media (min-width: 770) {
+    font-size: small;
+
+  }
+  @media (min-width: 992px) {
+    font-size: 15px;
+
+  }
+
+  // Tamanho da imagem para telas extra large (xl)
+  @media (min-width: 1200px) {
+    font-size: large;
+
+  }
+}
+
+.bio-text{
+  font-size: medium;
+
+  @media (min-width: 0px) {
+    font-size: 10px;
+  }
+
+  @media (min-width: 360px) {
+    font-size: 12px;
+  }
+
+  // Tamanho da imagem para telas small (sm)
+  @media (min-width: 511px) {
+    font-size: small;
+  }
+
+  // Tamanho da imagem para telas medium (md)
+  @media (min-width: 770) {
+    font-size: small;
+
+  }
+  @media (min-width: 992px) {
+    font-size: 15px;
+
+  }
+
+  // Tamanho da imagem para telas extra large (xl)
+  @media (min-width: 1200px) {
+    font-size: medium;
+
+  }
+}
+
+
+.upper-button{
+  margin-top: 0px;
+  @media (min-width: 0px) {
+    height: 25px;
+    width: 50px;
+    font-size: 10px;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 281) {
+    height: 30px;
+    width: 60px;
+    margin-bottom: 0rem;
+
+  }
+  @media (min-width: 360px) {
+    height: 35px;
+    width: 65px;
+    font-size: 12px;
+  }
+
+  // Tamanho da imagem para telas small (sm)
+  @media (min-width: 511px) {
+    height: 35px;
+    width: 70px;
+    font-size: 14px;
+  }
+
+  // Tamanho da imagem para telas medium (md)
+  @media (min-width: 770) {
+    height: 30px;
+    width: 60px;
+    font-size: 12px;
+  }
+  @media (min-width: 992px) {
+    height: 35px;
+    width: 70px;
+
+  }
+
+}
+
+.upper-button-follow{
+  margin-top: 0px;
+  @media (min-width: 0px) {
+    height: 25px;
+    width: 50px;
+    font-size: 6px;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 281) {
+    height: 30px;
+    width: 60px;
+    font-size: 8px;
+
+    margin-bottom: 0rem;
+
+  }
+  @media (min-width: 360px) {
+    height: 35px;
+    width: 65px;
+    font-size: 12px;
+  }
+
+  // Tamanho da imagem para telas small (sm)
+  @media (min-width: 511px) {
+    height: 35px;
+    width: 70px;
+    font-size: 10;
+  }
+
+  // Tamanho da imagem para telas medium (md)
+  @media (min-width: 770) {
+    height: 30px;
+    width: 60px;
+    font-size: 12px;
+  }
+  @media (min-width: 992px) {
+    height: 35px;
+    width: 70px;
+
+  }
+}
+.upper-button-following{
+  margin-top: 0px;
+  @media (min-width: 0px) {
+    height: 25px;
+    width: 50px;
+    font-size: 5px;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 360px) {
+    height: 30px;
+    width: 65px;
+    font-size: 8px;
+  }
+
+  // Tamanho da imagem para telas small (sm)
+  @media (min-width: 511px) {
+    height: 35px;
+    width: 75px;
+    font-size: 10px;
+  }
+
+  // Tamanho da imagem para telas medium (md)
+  @media (min-width: 770) {
+    height: 30px;
+    width: 60px;
+    font-size: 12px;
+  }
+  @media (min-width: 992px) {
+    height: 35px;
+    width: 80px;
+    font-size: 12px;
+
+  }
+}
 .noclickable{
   pointer-events: none;
 }
@@ -68,3 +403,8 @@ color: white;
 a {
   cursor: pointer;
 }
+$corPrincipal: #ff0000;
+.text-error{
+  color: lighten($corPrincipal, 18%);
+}
+

@@ -1,18 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Post } from '@app/models/identity/Post';
 import { PostTL } from '@app/models/identity/PostTl';
 import { AccountService } from '@app/services/account.service';
 import { PostService } from '@app/services/post.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss']
 })
-export class TimelineComponent implements OnInit {
+export class TimelineComponent implements OnInit{
 
   post = {} as Post;
   subscription: Subscription;
@@ -31,12 +31,14 @@ export class TimelineComponent implements OnInit {
   ngOnInit(): void {
     this.userId = JSON.parse(localStorage.getItem('user'))['userId'];
     this.selectHomePage();
-    this.subscription = this.postService.currentPosts$.subscribe(response => this.posts.push(...response))
+    this.subscription = this.postService.currentPosts$.subscribe(response => {this.posts.push(...response); console.log(response)})
+    this.posts = [];
   }
+
 
   public addPost(): void{
     let date = new Date();
-    this.post.date =  date.toLocaleDateString();
+    this.post.date = date.toLocaleString();
     this.postService.addPost(this.post).subscribe(
       () => {
         this.post = {} as Post;
@@ -54,7 +56,8 @@ export class TimelineComponent implements OnInit {
 
   private updateTimeLine(): void{
     this.posts = [];
-    this.postService.updateTimeLine(this.userId, this.pageNumber, this.itemsPerPage);
+    this.postService.setPageNumber( this.pageNumber.toString())
+    this.postService.updateTimeLine(this.userId, this.itemsPerPage);
   }
 
   public selectHomePage(): void{

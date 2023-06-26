@@ -69,7 +69,9 @@ export class ProfileComponent implements OnInit {
 
   private updateTimeLine(): void{
     this.posts = [];
-    this.postService.updateTimeLine(this.user.id, this.pageNumber, this.itemsPerPage);
+    this.postService.setPageNumber( this.pageNumber.toString())
+    this.postService.changeProfileUserName(this.user.userName)
+    this.postService.updateTimeLine(this.user.id, this.itemsPerPage);
   }
 
   private loadProfile(): void{

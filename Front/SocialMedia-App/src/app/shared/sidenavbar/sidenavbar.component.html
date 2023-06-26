@@ -1,26 +1,26 @@
 <nav class=" navbar navbar-expand-lg me-2 mt-5 pt-5 d-sm-block d-none " >
-  <div class="container-fluid ">
-    <ul class="row w-100 d-inline ">
-      <div class="col-6 d-inline ">
+  <div class="container-fluid h-100">
+    <ul class=" vw-100 vh-100 d-inline ">
+      <div class="d-inline">
         <li class="nav-item d-inline " routerLinkActive="active">
-          <div class="roundedc d-flex text-center align-items-center pe-md-5 pe-lg-1 pe-xl-3">
-          <a class=" nav-link d-none d-lg-flex pe-4  text-nowrap " aria-current="page" routerLink="home">
-            <i class=" fa fa-solid fa-house fa-2x d-none d-lg-inline pe-3 text-nowrap"></i>
-            <span class="pt-1">Página inicial</span>
-          </a>
-          <a class="nav-link d-lg-none d-block" aria-current="page" routerLink="home">
-                <i class=" fa fa-solid fa-house fa-2x"></i>
-          </a>
-        </div>
+          <div class="roundedc d-flex text-center align-items-stretch pe-md-5 pe-lg-1 pe-xl-3 mb-5">
+            <a class="p-2 p-md-0 nav-link d-none d-lg-flex pe-4 text-nowrap" aria-current="page" routerLink="home">
+              <i class="fa fa-solid fa-house fa-2x d-none d-lg-inline pe-3 text-nowrap"></i>
+              <span class="pt-1 ">Página inicial</span>
+            </a>
+            <a class="nav-link d-lg-none d-block" aria-current="page" routerLink="home">
+              <i class="fa fa-solid fa-house fa-2x"></i>
+            </a>
+          </div>
       </li>
       </div>
         <p></p>
-        <div class="col-6 d-inline" >
+        <div class=" d-inline " >
           <li class="nav-item d-inline " routerLinkActive="active">
-              <div class="roundedc d-flex text-center align-items-center pe-md-3 pe-lg-1 pe-xl-3">
-              <a class=" nav-link d-none d-lg-flex pe-4  text-nowrap " aria-current="page" routerLink="messages">
+              <div class="roundedc d-flex text-center align-items-center pe-md-3 pe-lg-1 pe-xl-3 mb-5">
+              <a class="p-2 p-md-0 nav-link d-none d-lg-flex pe-4 text-nowrap " aria-current="page" routerLink="messages">
                 <i class=" fa fa-solid fa-message fa-2x d-none d-lg-inline pe-3 text-nowrap"></i>
-                <span class="ps-1 ">Mensagens</span>
+                <span class="ps-1 pt-1">Mensagens</span>
               </a>
               <a class="nav-link d-lg-none d-block" aria-current="page" routerLink="messages">
                     <i class=" fa fa-solid fa-message fa-2x"></i>
@@ -28,32 +28,54 @@
             </div>
           </li>
         </div>
+
+        <div class="d-inline " >
+          <li class="nav-item d-inline " routerLinkActive="active">
+              <div class="roundedc d-flex text-center align-items-center pe-md-3 pe-lg-1 pe-xl-3">
+              <a class="p-2 p-md-0 nav-link d-none d-lg-flex pe-4 text-nowrap " aria-current="page" routerLink="search">
+                <i class=" fa fa-solid fa-search fa-2x  fa-2x d-none d-lg-inline pe-3 text-nowrap"></i>
+                <span class="ps-1 pt-1">Buscar</span>
+              </a>
+              <a class="nav-link d-lg-none d-block" aria-current="page" routerLink="search">
+                <i class="fa fa-solid fa-search fa-2x mobile-icon"></i>
+              </a>
+            </div>
+          </li>
+        </div>
+
     </ul>
   </div>
 </nav>
-
-<nav class="navbar navbar-expand-sm d-sm-none d-block fixed-bottom bg-dark border-top border-light" >
- <ul class="row justify-content-between text-center mt-3">
-   <div class="col-4">
-      <li class="nav-item d-inline " routerLinkActive="active">
+<nav class="navbar navbar-expand-sm d-sm-none d-block fixed-bottom bg-dark border-top border-light">
+  <ul class="row text-center d-flex justify-content-between align-items-center mt-3 me-4">
+    <div class="col-3 ">
+      <li class="nav-item d-inline" routerLinkActive="active">
         <a class="nav-link" aria-current="page" routerLink="home">
-          <i class="fa fa-solid fa-house fa-2x"></i>
+          <i class="fa fa-solid fa-house fa-2x mobile-icon"></i>
         </a>
       </li>
     </div>
-    <div class="col-4">
-      <li class="nav-item d-inline " routerLinkActive="active">
+    <div class="col-3 ">
+      <li class="nav-item d-inline" routerLinkActive="active">
+        <a class="nav-link" aria-current="page" routerLink="search">
+          <i class="fa fa-solid fa-search fa-2x mobile-icon"></i>
+        </a>
+      </li>
+    </div>
+    <div class="col-3">
+      <li class="nav-item d-inline" routerLinkActive="active">
         <a class="nav-link" aria-current="page" routerLink="messages">
-          <i class=" fa fa-solid fa-search fa-2x"></i>
+          <i class="fa fa-solid fa-message fa-2x mobile-icon"></i>
         </a>
       </li>
     </div>
-    <div class="col-4">
-      <li class="nav-item d-inline " routerLinkActive="active">
-        <a class="nav-link" aria-current="page" routerLink="messages">
-          <i class="fa-solid fa-message fa-2x"></i>
+    <div class="col-3 ">
+      <li class="nav-item d-inline" routerLinkActive="active">
+        <a class="nav-link" aria-current="page" routerLink="user/profile/{{userName}}">
+          <i class="fa fa-user fa-2x mobile-icon"></i>
         </a>
       </li>
     </div>
-</ul>
+  </ul>
 </nav>
+

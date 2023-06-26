@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Params, Router } from '@angular/router';
 import { UserUpdate } from '@app/models/identity/UserUpdate';
 import { AccountService } from '@app/services/account.service';
 
@@ -35,6 +35,15 @@ export class ProfileCardComponent implements OnInit {
   }
 
   public userDetails(): void{
-    this.router.navigateByUrl('user/profile/' + this.userName)
+    console.log(this.userName)
+    this.navigateToSameRouteWithDifferentParams(this.userName)
   }
+
+  navigateToSameRouteWithDifferentParams(newParams: Params) {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      // Navega para uma rota diferente temporariamente
+      this.router.navigateByUrl('user/profile/' + newParams);
+    });
+  }
+
 }

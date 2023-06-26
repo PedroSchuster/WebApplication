@@ -21,8 +21,8 @@ namespace SocialMedia.API.Controllers
             _postService = postService;
         }
 
-        [HttpPost("getposts/{userId}")]
-        public async Task<IActionResult> GetPosts(int userId, [FromBody] JObject jsonObj)
+        [HttpPost("getposts/{userName}")]
+        public async Task<IActionResult> GetPosts(string userName, [FromBody] JObject jsonObj)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace SocialMedia.API.Controllers
                 pageParams.PageNumber = pageNumber;
                 pageParams.PageSize = pageSize;
 
-                var posts = await _postService.GetAllPostsAsync(userId, pageParams);
+                var posts = await _postService.GetAllPostsAsync(userName, pageParams);
                 if (posts == null) return NoContent();
 
                 return Ok(posts);
@@ -99,7 +99,7 @@ namespace SocialMedia.API.Controllers
         {
             try
             {
-                var post = await _postService.GetPostByIdAsync(postId);
+                var post = await _postService.GetPostByIdAsync(User.GetUserId(), postId);
                 if (post == null) return NoContent();
 
                 return Ok(post);
@@ -135,7 +135,7 @@ namespace SocialMedia.API.Controllers
         }
 
         [HttpPut("{postId}")]
-        public async Task<IActionResult> UpdatePost(int postId, PostDto model)
+        public async Task<IActionResult> UpdatePost(int postId, PostDetailsDto model)
         {
             try
             {
@@ -157,7 +157,7 @@ namespace SocialMedia.API.Controllers
         {
             try
             {
-                var post = await _postService.GetPostByIdAsync(postId);
+                var post = await _postService.GetPostByIdAsync(User.GetUserId(), postId);
                 if (post == null) return NoContent();
 
                 if (await _postService.Remove(User.GetUserId(), postId))
@@ -166,6 +166,38 @@ namespace SocialMedia.API.Controllers
                 }
                 
                  return BadRequest("Erro ao tentar deletar post");
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro: {e.Message}");
+            }
+        }
+
+        [HttpGet("like/{postId}")]
+        public async Task<IActionResult> LikePost(int postId)
+        {
+            try
+            {
+                var post = await _postService.LikePostAsync(User.GetUserId(), postId);
+                if (post == null) return NoContent();
+
+                return Ok(post);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro: {e.Message}");
+            }
+        }
+
+        [HttpGet("removelike/{postId}")]
+        public async Task<IActionResult> RemoveLikePost(int postId)
+        {
+            try
+            {
+                var post = await _postService.RemoveLikePostAsync(User.GetUserId(), postId);
+                if (post == null) return NoContent();
+
+                return Ok(post);
             }
             catch (Exception e)
             {

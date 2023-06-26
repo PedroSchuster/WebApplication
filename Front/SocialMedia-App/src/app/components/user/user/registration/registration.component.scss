@@ -1,0 +1,8 @@
+.main{
+  overflow: hidden;
+  width: 100%;
+}
+$corPrincipal: #ff0000;
+.text-error{
+  color: lighten($corPrincipal, 18%);
+}

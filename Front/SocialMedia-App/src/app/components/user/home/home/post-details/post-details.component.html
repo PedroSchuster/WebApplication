@@ -1,38 +1,42 @@
 <div class="container-fluid p-0 mt-5 ">
   <div *ngIf="post.rootId != null" >
-    <div *ngFor="let rootPost of post.parents" >
-      <div class=" border border-light text-light my-3 post" (click)="postDetails(rootPost?.id)">
-        <div class="p-3 d-flex justify-content-between">
-          <span>
-            <i class="pe-3 fa fa-house"></i>
-            <span>{{rootPost?.userName}}</span>
-          </span>
-          <span>{{rootPost?.date | DateFormatPipe}}</span>
-        </div>
-        <div class="p-3 pt-0">
-          <p>
-            {{rootPost?.body}}
-          </p>
-        </div>
-      </div>
-      <div class="text-center">
-        <i class="fas	fa-long-arrow-alt-down text-light "></i>
-      </div>
+    <div  *ngFor="let rootPost of post.parents" (click)="postDetails(rootPost.id)">
+      <app-post-tl
+      [post]="rootPost"
+      >
+    </app-post-tl>
+    <div class="text-center ">
+      <i class="fas fa-text-height	fa-long-arrow-down p-0 my-3 text-light  arrow-icon"></i>
+    </div>
     </div>
 
     </div>
-  <div class=" border border-light text-light mt-3 mb-4">
+  <div class=" border border-light text-light mb-4">
     <div class="p-3 d-flex justify-content-between">
-      <span>
-        <i class="pe-3 fa fa-house"></i>
-        <span>{{post.userName}}</span>
-      </span>
-      <span>{{post.date | DateFormatPipe}}</span>
+      <div class="d-flex align-items-center">
+        <div class="image-area-no-edit noclickable">
+          <img
+            src={{imgURL}}
+            alt="Card image cap"
+            class="image "
+          />
+        </div>
+        <div class="ms-2 ">@{{post.user?.userName}}</div>
+      </div>
+      <span>{{post?.date | DateFormatPipe}}</span>
     </div>
     <div class="p-3 pt-0">
       <p>
-        {{post.body}}
+        {{post?.body}}
       </p>
+    </div>
+    <div class="p-3 pt-0">
+      <button  type="button" (click)="like($event)" class=" btn btn-block rounded-circle me-2 m-0 p-0 select-tl bg-transparent shadow-0 border-0">
+        <i class="fa-solid fa-heart " [class.nolike]="!isLiked" [class.liked]="isLiked"></i>
+      </button>
+      <span class="me-3">{{totalLikes}}</span>
+      <i class="fa-solid fa-comment me-2"></i>
+      <span class="me-5">{{post?.totalComments}}</span>
     </div>
   </div>
   <div class="text-light input-group border d-inline-block border-light p-3  ">
@@ -52,21 +56,11 @@
     </div>
 
   <div class=" post p-0 m-3" *ngFor="let comment of comments"  (click)="postDetails(comment.id)">
-    <div class="border border-light text-light ">
-        <div class="p-3 d-flex justify-content-between">
-          <span>
-            <i class="pe-3 fa fa-house"></i>
-            <span>{{comment.userName}}</span>
-          </span>
-          <span>{{comment.date | DateFormatPipe}}</span>
-        </div>
-        <div class="p-3 pt-0">
-          <p>
-            {{comment.body}}
-          </p>
-        </div>
-      </div>
-    </div>
+    <app-post-tl
+  [post]="comment"
+>
+</app-post-tl>
+  </div>
 
 </div>
 

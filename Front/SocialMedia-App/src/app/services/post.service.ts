@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Post } from '@app/models/identity/Post';
 import { PostDetails } from '@app/models/identity/PostDetails';
 import { PostTL } from '@app/models/identity/PostTl';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { BehaviorSubject, Observable, ReplaySubject, take } from 'rxjs';
 
 @Injectable({
@@ -20,42 +21,54 @@ export class PostService {
   postsSourceProfile = new BehaviorSubject<PostTL[]>([]);
   public currentPostsProfile$ = this.postsSourceProfile.asObservable();
 
+  constructor(private http: HttpClient,
+    private spinner: NgxSpinnerService) {
+  }
+
+  public changeProfileUserName(userName: string): void{
+    localStorage.setItem('profileUserName', userName);
+  }
+
   public changeTLType(type: string): void{
     localStorage.setItem('tlType', type);
   }
 
-  public updateTimeLine(userId:number, pageNumber?: number, itemsPerPage?: number){
-    const tlType = localStorage.getItem('tlType');
-    console.log(tlType)
+  public setPageNumber(pageNumber: string): void{
+    localStorage.setItem('pageNumber', pageNumber);
     console.log(pageNumber)
-    console.log(itemsPerPage)
+  }
+
+  public updateTimeLine(userId:number, itemsPerPage?: number){
+    const tlType = localStorage.getItem('tlType');
+    if (tlType === 'post-detail') return;
+
+    this.spinner.show();
+
+    const pageNumber = parseInt(localStorage.getItem('pageNumber'));
+
     if (tlType === 'following'){
       this.getPostsFollowingPage(userId, pageNumber, itemsPerPage).subscribe(
         (response: PostTL[]) => this.postsSource.next(response),
         (error: any) => console.error(error)
-      )
+      ).add(()=>this.spinner.hide());
     }
     else if (tlType === 'home'){
       this.getPostsHomePage(userId, pageNumber, itemsPerPage).subscribe(
-        (response: PostTL[]) => {this.postsSource.next(response); console.log(response)},
+        (response: PostTL[]) => this.postsSource.next(response),
         (error: any) => console.error(error)
-      )
+      ).add(()=>this.spinner.hide());
     }
     else if (tlType === 'profile'){
-      this.getPosts(userId, pageNumber, itemsPerPage).subscribe(
-        (response: PostTL[]) => {this.postsSourceProfile.next(response); console.log(response)},
+      let userName = localStorage.getItem('profileUserName');
+      this.getPosts(userName, pageNumber, itemsPerPage).subscribe(
+        (response: PostTL[]) => this.postsSourceProfile.next(response),
         (error: any) => console.error(error)
-      )
+      ).add(()=>this.spinner.hide());
     }
 
   }
 
-  constructor(private http: HttpClient) {
-
-  }
-
-
-  public getPosts(userId:number, pageNumber, itemsPerPage): Observable<PostTL[]>{
+  public getPosts(username:string, pageNumber, itemsPerPage): Observable<PostTL[]>{
     const pageParams = {
       PageNumber: pageNumber,
       PageSize: itemsPerPage
@@ -67,7 +80,7 @@ export class PostService {
       })
     };
 
-    return this.http.post<PostTL[]>(`${this.baseURL}/getposts/${userId}`, pageParams, httpOptions ).pipe(take(1));
+    return this.http.post<PostTL[]>(`${this.baseURL}/getposts/${username}`, pageParams, httpOptions ).pipe(take(1));
   }
 
   public getPostsFollowingPage(userId:number, pageNumber?: number, itemsPerPage?: number): Observable<PostTL[]>{
@@ -119,4 +132,11 @@ export class PostService {
     return this.http.delete<Post>(`${this.baseURL}/${id}`).pipe(take(1));
   }
 
+  public like(postId: number): Observable<any>{
+    return this.http.get<any>(`${this.baseURL}/like/${postId}`).pipe(take(1));
+  }
+
+  public removelike(postId: number): Observable<any>{
+    return this.http.get<any>(`${this.baseURL}/removelike/${postId}`).pipe(take(1));
+  }
 }

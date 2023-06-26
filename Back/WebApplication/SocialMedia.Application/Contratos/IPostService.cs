@@ -13,11 +13,11 @@ namespace SocialMedia.Domain.Contratos
     {
         Task<PostDto> AddPosts(int userId, string userName, PostDto model);
 
-        Task<PostDto> UpdatePost(int userId, int postId, PostDto model);
+        Task<PostDetailsDto> UpdatePost(int userId, int postId, PostDetailsDto model);
 
         Task<bool> Remove(int userId, int postId);
 
-        Task<PageList<PostTLDto>> GetAllPostsAsync(int userId, PageParams pageParams);
+        Task<PageList<PostTLDto>> GetAllPostsAsync(string userName, PageParams pageParams);
 
         Task<PageList<PostTLDto>> GetPostsFollowingPageAsync(int userId, PageParams pageParams);
 
@@ -25,6 +25,10 @@ namespace SocialMedia.Domain.Contratos
 
         Task<IEnumerable<PostDetailsDto>> GetAllCommentsAsync(int postId);
 
-        Task<PostDetailsDto> GetPostByIdAsync(int postId);
+        Task<PostDetailsDto> GetPostByIdAsync(int userId, int postId);
+
+        Task<bool> LikePostAsync(int userId, int postId);
+
+        Task<bool> RemoveLikePostAsync(int userId, int postId);
     }
 }
