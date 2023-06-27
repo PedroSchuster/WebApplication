@@ -56,3 +56,23 @@ background-color: #36393d;
 .selected{
   font-weight: bold;
 }
+
+
+.image {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.6s ease;
+}
+
+
+.image-area-no-edit{
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  overflow: hidden; /* Oculta qualquer conteúdo da imagem fora da div */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

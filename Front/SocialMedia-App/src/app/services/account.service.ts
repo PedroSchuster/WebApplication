@@ -77,12 +77,17 @@ export class AccountService {
     );
   }
 
-  public uploadImage(file: File): Observable<UserUpdate>{
+  public uploadImage(file: File): Observable<void>{
     const fileToUpload = file[0] as File;
     const formData = new FormData();
     formData.append('file', fileToUpload);
 
-    return this.http.post<UserUpdate>(`${this.baseURL}upload-image`, formData).pipe(take(1));
+    return this.http.post<UserUpdate>(`${this.baseURL}upload-image`, formData).pipe(
+      take(1),
+      map((user: UserUpdate) => {
+        this.setCurrentUser(user);
+      })
+    );
   }
 
   public register(model: any): Observable<void>{

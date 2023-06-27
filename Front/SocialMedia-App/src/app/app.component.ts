@@ -5,7 +5,9 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Post } from './models/identity/Post';
 import { PostService } from './services/post.service';
-import { Subscription } from 'rxjs';
+import { Subscription, take, timeout } from 'rxjs';
+import { SignalrService } from './services/signalr.service';
+import { UserConnection } from './models/identity/UserConnection';
 
 @Component({
   selector: 'app-root',
@@ -19,10 +21,14 @@ export class AppComponent {
   private userId: number;
   private currentRoute: string;
   public isNotProfileRoute: boolean;
+
+  private userConnection: UserConnection;
+  private isConnected: boolean;
+
   constructor(public accountService: AccountService,
     private postService: PostService,
     private spinner: NgxSpinnerService,
-    private activeRouter: ActivatedRoute,
+    private signalrService: SignalrService,
     private router: Router) {}
 
   ngOnInit(): void {
@@ -31,11 +37,27 @@ export class AppComponent {
           this.currentRoute = (<NavigationEnd>event).url;
           this.isNotProfileRoute = this.currentRoute.indexOf('profile') === -1;
       }
-  });
+    });
 
-  this.setCurrentUser();
+    this.setConnection();
+    this.setCurrentUser();
     this.userId = JSON.parse(localStorage.getItem('user'))['userId'];
+  }
 
+  private setConnection(): void{
+    this.signalrService.startConnection();
+  this.signalrService.ssObs().pipe(take(1)).subscribe(()=>{
+    if (this.signalrService.hubConnection.state == 1){
+      this.signalrService.hubConnection.invoke("GetUserConnectionAsync").catch(err => console.error(err))
+
+      this.signalrService.hubConnection.on('getUserConnectionResponse', (connectionId: string) => {
+      let currentUserName = JSON.parse(localStorage.getItem('user'))['userName'];
+      let currentUserId= JSON.parse(localStorage.getItem('user'))['userId'];
+      this.userConnection = {userName: currentUserName, userId: currentUserId, connId: connectionId}
+      this.signalrService.addConnectedUser(this.userConnection)
+    })
+    }
+  })
 
   }
 

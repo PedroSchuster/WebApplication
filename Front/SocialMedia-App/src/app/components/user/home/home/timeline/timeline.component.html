@@ -1,46 +1,55 @@
-<div
-id="tl-type"
-class="row mb-2 text-light border border-top-0 mx-0 sticky-top"
->
-<div class="col-6 px-0" >
-  <button
-    type="button"
-    class="btn btn-block p-4 w-100 h-100 border-0 select-tl noround shadow-none text-light"
-    (click)="selectHomePage()"
-    [class.selected]="currentTLType == 'home'"
+<div id="main">
+
+  <div
+  id="tl-type"
+  class="row mb-2 text-light border border-top-0 mx-0 sticky-top"
   >
-  Página Inicial
-</button>
-</div>
-<div class="col-6 px-0 " >
-  <button
-    type="button"
-    class="btn btn-block p-4 w-100 h-100 border-0 select-tl noround shadow-none text-light"
-    (click)="selectFollowingPage()"
-    [class.selected]="currentTLType == 'following'"
-  >
-  Seguindo
+  <div class="col-6 px-0" >
+    <button
+      type="button"
+      class="btn btn-block p-4 w-100 h-100 border-0 select-tl noround shadow-none text-light"
+      (click)="selectHomePage()"
+      [class.selected]="currentTLType == 'home'"
+    >
+    Geral
   </button>
-</div>
-</div>
-<div class="text-light input-group border d-inline-block border-light p-3  ">
-<fieldset class="h-100 ">
-  <span>
-    <i class="pe-3 fa fa-solid fa-house"></i>
-  </span>
-  <span class="textarea text-light border-0 mt-3 p-0 "
-  (input)="updatePost($event)"
-  role="textbox" contenteditable>
-</span>
-  <div class="d-flex justify-content-end">
-    <button type="button" class="btn btn-success text-light
-    h-30 bottom-0 end-0 me-3 mb-3 mt-3 rounded" (click)="addPost()" [disabled]="!post.body">Publicar</button>
   </div>
-</fieldset>
-</div>
-<div *ngFor="let item of posts">
-<app-post-tl
-  [post]="item"
->
-</app-post-tl>
+  <div class="col-6 px-0 " >
+    <button
+      type="button"
+      class="btn btn-block p-4 w-100 h-100 border-0 text-nowrap select-tl noround shadow-none text-light"
+      (click)="selectFollowingPage()"
+      [class.selected]="currentTLType == 'following'"
+    >
+    Seguindo
+    </button>
+  </div>
+  </div>
+  <div class="text-light input-group border d-inline-block border-light p-3 ">
+  <fieldset class="h-100 ">
+    <span>
+      <div class="image-area-no-edit noclickable">
+        <img
+          src={{profilePicURL}}
+          alt="Card image cap"
+          class="image "
+        />
+      </div>
+    </span>
+    <span class="textarea text-light border-0 mt-3 p-0 "
+    (input)="updatePost($event)"
+    role="textbox" contenteditable>
+  </span>
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-success text-light
+      h-30 bottom-0 end-0 me-3 mb-3 mt-3 rounded" (click)="addPost()" [disabled]="!post.body">Publicar</button>
+    </div>
+  </fieldset>
+  </div>
+  <div *ngFor="let item of posts" id="list">
+  <app-post-tl
+    [post]="item"
+  >
+  </app-post-tl>
+  </div>
 </div>

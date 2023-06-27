@@ -35,7 +35,6 @@ export class PostService {
 
   public setPageNumber(pageNumber: string): void{
     localStorage.setItem('pageNumber', pageNumber);
-    console.log(pageNumber)
   }
 
   public updateTimeLine(userId:number, itemsPerPage?: number){
@@ -139,4 +138,5 @@ export class PostService {
   public removelike(postId: number): Observable<any>{
     return this.http.get<any>(`${this.baseURL}/removelike/${postId}`).pipe(take(1));
   }
+
 }

@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Post } from '@app/models/identity/Post';
 import { PostTL } from '@app/models/identity/PostTl';
+import { User } from '@app/models/identity/User';
 import { AccountService } from '@app/services/account.service';
 import { PostService } from '@app/services/post.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -23,6 +24,8 @@ export class TimelineComponent implements OnInit{
   private userId: number;
   public currentTLType: string = '';
 
+  public profilePicURL: string;
+
   constructor(private accountService: AccountService,
     private postService: PostService,
     private spinner: NgxSpinnerService,
@@ -30,11 +33,24 @@ export class TimelineComponent implements OnInit{
 
   ngOnInit(): void {
     this.userId = JSON.parse(localStorage.getItem('user'))['userId'];
+    this.loadCurrentUser();
     this.selectHomePage();
-    this.subscription = this.postService.currentPosts$.subscribe(response => {this.posts.push(...response); console.log(response)})
+    this.subscription = this.postService.currentPosts$.subscribe(response => this.posts.push(...response))
     this.posts = [];
   }
 
+  private loadCurrentUser(): void{
+    this.accountService.currentUser$.subscribe(
+      (response: User) => {
+        if (response?.profilePicURL != null && response?.profilePicURL != ''){
+          this.profilePicURL = 'https://localhost:7209/Resources/Images/' + response?.profilePicURL;
+        } else{
+          this.profilePicURL = 'assets/images/empty-profile.png';
+        }
+      },
+      (error: any) => console.error(error)
+      )
+  }
 
   public addPost(): void{
     let date = new Date();
@@ -61,14 +77,33 @@ export class TimelineComponent implements OnInit{
   }
 
   public selectHomePage(): void{
+
+    const element = document.getElementById('main');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
     this.postService.changeTLType('home');
-    this.currentTLType = localStorage.getItem('tlType');
+
+    this.postService.setPageNumber('1');
+
     this.updateTimeLine();
+
+
   }
 
   public selectFollowingPage(): void{
+
+    const element = document.getElementById('main');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
     this.postService.changeTLType('following');
-    this.currentTLType = localStorage.getItem('tlType');
+
+    this.postService.setPageNumber('1');
+
     this.updateTimeLine();
+
   }
 }

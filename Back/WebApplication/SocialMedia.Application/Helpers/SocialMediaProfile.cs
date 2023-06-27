@@ -17,6 +17,8 @@ namespace ProEventos.Application.Helpers
             CreateMap<User, UserUpdateDto>().ReverseMap();
             CreateMap<User, UserLoginDto>().ReverseMap();
 
+            CreateMap<Message, MessageDto>().ReverseMap();
+            CreateMap<ChatConnection, ConnectionDto>().ReverseMap();
         }
     }
 }

@@ -22,21 +22,24 @@
               </div>
           </div>
             <div class="col-xxl-7 col-lg-8
-            col-md-9 ms-md-4 ms-xl-4 mt-5 me-lg-2 ms-lg-5 col-sm-7 col-7 ms-4
-            p-0 ps-lg-2 m-0">
+            col-md-9 ms-md-4 ms-xl-4 mt-5 me-lg-2 ms-lg-5 col-sm-7 col-6 ms-4
+            p-0 ps-lg-2 m-0  ">
               <div class=" user text-nowrap pt-0 text-bold mb-0">
                 {{ user.firstName | titlecase }} {{ user.lastName | titlecase }}
                 <div class="subinfo mt-0 p-0">@{{ user.userName }}</div>
               </div>
             </div>
-          <div class=" ms-0 col-1 ms-xl-3 mt-5">
+          <div class=" ms-0 col-2 col-sm-1 ms-xl-3 mt-5">
+          <i class="fa fa-pencil icon" aria-hidden="true" (click)="editMode = true"></i>
+
             <button
               *ngIf="userName == loggedUserName"
-              class="btn btn-primary upper-button"
+              class="btn btn-primary upper-button custom-col"
               (click)="toggleEditMode()"
             >
               Editar
             </button>
+
             <button
               *ngIf="userName != loggedUserName && followMode"
               class="btn btn-primary upper-button-follow"
@@ -51,20 +54,26 @@
           >
             Seguindo
           </button>
-          </div>
         </div>
-        <div class="row bg-dark text-light shadow-0 border-0 m-0 mb-5  ">
-
-          <div class=" col-xxl-3 col-xl-4 mt-3 col-6">
-            <div class="d-inline-block">
+        <div class=" ms-0 col-2 d-inline d-sm-none mt-5 me-xl-3 custom-col">
+          <i class="fas fa-window-close icon" style="color: #ff0000;" (click)="logout()"></i>
+          <button
+          *ngIf="userName == loggedUserName"
+          class="btn btn-danger upper-button custom-col"
+          (click)="toggleEditMode()"
+        >
+          Sair
+        </button>
+      </div>
+        </div>
+        <div class="row bg-dark text-light shadow-0 border-0 m-0 mb-5 ">
+          <div class=" col-xxl-6 col-xl-4 mt-3 col-6">
               <div class="h5 text-bold mb-0 count-text">
                 <a (click)="openFollowing()">Seguindo</a>
               </div>
               <div class="subinfo mt-1">{{user.followingCount}}</div>
-            </div>
           </div>
-
-          <div class=" col-xxl-3 col-xl-4 mt-3 col-6">
+          <div class=" col-xxl-6 col-xl-4 mt-3 col-6">
             <div class="h5 text-bold mb-0 count-text">
               <a (click)="openFollowers()">Seguidores</a>
             </div>

@@ -47,6 +47,9 @@ import { ProfileCardComponent } from './components/user/user/profile/profile-car
 import { MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import { UserRelationsComponent } from './components/user/user/profile/user-relations/user-relations.component';
 import { ProfilePageComponent } from './components/user/user/profile/profile-page/profile-page.component';
+import { ChatComponent } from './components/user/chat/chat.component';
+import { ChatDetailsComponent } from './components/user/chat/chat-details/chat-details.component';
+import { SignalrService } from './services/signalr.service';
 defineLocale('pt-br', ptBrLocale);
 
 @NgModule({
@@ -67,6 +70,8 @@ defineLocale('pt-br', ptBrLocale);
     ProfileCardComponent,
     UserRelationsComponent,
     ProfilePageComponent,
+    ChatComponent,
+    ChatDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +92,7 @@ defineLocale('pt-br', ptBrLocale);
     TabsModule.forRoot(),
     ModalModule.forRoot(),
     ToastrModule.forRoot({
-      timeOut: 7000,
+      timeOut: 3000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true
     }),
@@ -96,6 +101,7 @@ defineLocale('pt-br', ptBrLocale);
   providers: [
     PostService,
     AccountService,
+    SignalrService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

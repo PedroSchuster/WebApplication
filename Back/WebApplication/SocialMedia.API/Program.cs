@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SocialMedia.API.HubConfig;
 using SocialMedia.Application;
 using SocialMedia.Application.Contratos;
 using SocialMedia.Domain.Contratos;
@@ -69,6 +70,12 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserPersist, UserPersist>();
 builder.Services.AddScoped<IPostPersist, PostPersist>();
+builder.Services.AddScoped<IChatService, ChatService>();
+builder.Services.AddScoped<IMessagePersist, MessagePersist>();
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
+});
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -131,6 +138,7 @@ app.UseStaticFiles(new StaticFileOptions()
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
+    endpoints.MapHub<ChatHub>("/chat");
 });
 
 app.MapControllers();

@@ -1,3 +1,12 @@
+.scroll::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.example {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
 
 html, body {
   width:100%;
@@ -6,31 +15,33 @@ html, body {
 }
 
 .search-results{
-  height: 100%;
-  overflow-y: scroll;
+  height: 100vh;
+  overflow-y: hidden;
   overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 .main{
   height:100vh;
-  overflow: unset;
+  overflow-y:hidden;
   display: flex;
   flex-direction: column;
   margin: 0;
   padding: 0;
 }
-
+.scroll{
+  height:89vh;
+  margin: 0;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  padding: 0;
+  overflow-y: scroll !important;
+}
 
 .card-transparent {
   background-color: transparent;
 }
-
-.container-fluid {
-  padding-left: 0;
-  padding-right: 0;
-  height: 100vh;
-}
-
 
 .card-no-border {
   border: none !important;

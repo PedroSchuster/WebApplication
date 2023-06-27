@@ -247,9 +247,16 @@ namespace SocialMedia.API.Controllers
                     user.ProfilePicURL = await SaveImage(file);
                 }
 
-                var returnUser = await _accountService.UpdateAccount(user);
+                var userReturn = await _accountService.UpdateAccount(user);
 
-                return Ok(returnUser);
+                return Ok(new
+                {
+                    userName = userReturn.UserName,
+                    firstName = userReturn.FirstName,
+                    userId = userReturn.Id,
+                    profilePicURL = userReturn.ProfilePicURL,
+                    token = _tokenService.CreateToken(userReturn).Result
+                });
             }
             catch (Exception ex)
             {

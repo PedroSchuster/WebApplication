@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialMedia.Persistence.Contextos;
 
@@ -11,9 +12,11 @@ using SocialMedia.Persistence.Contextos;
 namespace SocialMedia.Persistence.Migrations
 {
     [DbContext(typeof(SocialMediaContext))]
-    partial class SocialMediaContextModelSnapshot : ModelSnapshot
+    [Migration("20230627044209_ChatUpdate")]
+    partial class ChatUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -243,32 +246,11 @@ namespace SocialMedia.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("SecondUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ChatConnections");
-                });
-
-            modelBuilder.Entity("SocialMedia.Domain.Models.Message", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Body")
+                    b.Property<string>("SignalrId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ConnectionId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateTime")
+                    b.Property<DateTime>("TimeStamp")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
@@ -276,7 +258,7 @@ namespace SocialMedia.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Messages");
+                    b.ToTable("ChatConnections");
                 });
 
             modelBuilder.Entity("SocialMedia.Domain.Models.Post", b =>

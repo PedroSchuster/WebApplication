@@ -11,6 +11,8 @@ import { ProfileComponent } from "./components/user/user/profile/profile.compone
 import { UserRelationsComponent } from "./components/user/user/profile/user-relations/user-relations.component";
 import { ProfilePageComponent } from "./components/user/user/profile/profile-page/profile-page.component";
 import { SearchComponent } from "./components/user/search/search.component";
+import { ChatComponent } from "./components/user/chat/chat.component";
+import { ChatDetailsComponent } from "./components/user/chat/chat-details/chat-details.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'home/timeline', pathMatch: 'full' },
@@ -30,22 +32,24 @@ const routes: Routes = [
       },
     ],
   },
-  {
-    path: 'user',
-    component: UserComponent,
-    children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'registration', component: RegistrationComponent },
-      { path: 'profile/:userName', component: ProfilePageComponent },
-      { path: 'profile/:userName/:type', component: UserRelationsComponent },
-    ],
-  },
-  {path:'search', component: SearchComponent},
-  { path: '**', redirectTo: 'home/timeline', pathMatch: 'full' },
+      {
+        path: 'user',
+        component: UserComponent,
+        children: [
+          { path: 'login', component: LoginComponent },
+          { path: 'registration', component: RegistrationComponent },
+          { path: 'profile/:userName', component: ProfilePageComponent },
+          { path: 'profile/:userName/:type', component: UserRelationsComponent },
+        ],
+      },
+      {path: 'messages', component: ChatComponent},
+      {path: 'chat/:userId', component: ChatDetailsComponent},
+      {path:'search', component: SearchComponent},
+      { path: '**', redirectTo: 'home/timeline', pathMatch: 'full' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload', scrollPositionRestoration: 'enabled' }, )],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

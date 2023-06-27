@@ -198,6 +198,11 @@ export class ProfilePageComponent implements OnInit {
     }
   }
 
+  logout(): void{
+    this.accountService.logout();
+    this.router.navigateByUrl('/user/login');
+  }
+
   public followUser(): void{
     if (this.userName === null || this.userName === '') return;
     this.spinner.show();
